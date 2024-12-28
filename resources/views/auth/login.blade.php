@@ -4,23 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initialscale=1.0">
+    <meta name="viewport" content="width=device-width  initialscale=1.0">
     <title>SeeU - Sistem Informasi UMKM</title>
     <link rel="shortcut icon" href="/resources/images/Logo/mainLogo.png" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     @vite('resources/sass/app.scss')
+
+    <style>
+        .carousel-inner{
+            padding-top: 140px;
+        }
+    </style>
 </head>
 
 <body class="overflow-hidden">
 
     <div class="text-center">
-        <div class="d-flex ">
+        <div class="d-flex m-auto ">
 
-            <div class="col w-50 text-start vh-100 mt-5">
+            <div class="col  m-auto text-start bg-white p-0">
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
-                    <div class="d-grid">
+                    <div class="d-grid vh-100">
 
                         <div class="col m-auto">
                             <div class="mb-3 mt-5 text-start m-auto d-flex">
@@ -108,8 +114,8 @@
                 </form>
             </div>
 
-            <div class="col w-50 mainColor bodyCont">
-                <div id="carouselExampleSlidesOnly" class="carousel slide mx-auto" data-bs-ride="carousel">
+            <div class="col  mainColor bodyCont">
+                <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img src="{{ Vite::asset('resources/images/vector/Shoppinglogin1.png') }}" alt="image"

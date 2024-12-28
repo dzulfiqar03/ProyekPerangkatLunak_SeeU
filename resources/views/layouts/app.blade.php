@@ -1,28 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
+@php
+$currentRouteName = Route::currentRouteName();
+@endphp
+
+
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @vite('resources/sass/app.scss')
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+
+    @include('components.link.head')
+    @yield('linkHead')
 </head>
 
-<body class="overflow-x-hidden">
-    @include('layouts.nav')
-    @yield('content')
-    @include('sweetalert::alert')
-    @vite('resources/js/app.js')
-    @stack('scripts')
-    @stack('scripts2')
+<body class="overflow-visible mainColor">
+    <div id="app m-0">
 
+        <div class="wrapper">
+
+            {{-- Header --}}
+            @include('components.nav')
+
+            {{-- sidebar --}}
+            @include('components.sidebar')
+
+        </div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <!-- Main content -->
+                    @yield('content')
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+
+
+    @include('components.link.body')
+    @yield('linkBody')
+
+    
+  
 </body>
 
 </html>

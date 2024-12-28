@@ -6,13 +6,7 @@
             height: {!! $chart->height() !!},
             width: '{!! $chart->width() !!}',
             toolbar: {!! $chart->toolbar() !!},
-            zoom: {!! $chart->zoom() !!},
-            fontFamily: '{!! $chart->fontFamily() !!}',
-            foreColor: '{!! $chart->foreColor() !!}',
-            sparkline: {!! $chart->sparkline() !!},
-            @if($chart->stacked())
-            stacked: {!! $chart->stacked() !!},
-            @endif
+            zoom: {!! $chart->zoom() !!}
         },
         plotOptions: {
             bar: {!! $chart->horizontal() !!}
@@ -38,9 +32,6 @@
         @if($chart->stroke())
             stroke: {!! $chart->stroke() !!},
         @endif
-        legend: {
-            show: {!! $chart->showLegend() !!}
-        }
     }
 
     var chart = new ApexCharts(document.querySelector("#{!! $chart->id() !!}"), options);

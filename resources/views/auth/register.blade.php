@@ -10,14 +10,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     @vite('resources/sass/app.scss')
+
+    <style>
+        .carousel-inner{
+            padding-top: 140px;
+        }
+    </style>
 </head>
 
-<body class="bg-primary">
+<body class="overflow-hidden">
 
-    <div class="text-center vw-auto">
-        <div class="d-flex">
+    <div class="text-center">
+        <div class="d-flex ">
 
-            <div class="col w-50 mainColor bodyCont">
+            <div class="col  mainColor bodyCont">
                 <div id="carouselExampleSlidesOnly" class="carousel slide mx-auto" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -54,14 +60,14 @@
                 </div>
             </div>
 
-            <div class="col w-50 text-start vh-100 bg-white">
+            <div class="col  text-start bg-white">
 
 
                 <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data" id="form">
                     @csrf
                     <input type="hidden" name="id">
 
-                    <div class="d-grid pt-4 pb-4 bg-white">
+                    <div class="d-grid vh-100 bg-white">
 
                         <div class="col m-auto">
                             <div class="mb-3 mt-5 text-start m-auto d-flex">
@@ -127,7 +133,7 @@
                                     <div class="input-group">
                                         <div class="icon">
                                             <img src="{{ Vite::asset('resources/images/Icon/mailIcon.png') }}"
-                                            alt="image" width="25">
+                                                alt="image" width="25">
 
 
                                         </div>
@@ -147,7 +153,7 @@
                                     <div class="input-group">
                                         <div class="icon">
                                             <img src="{{ Vite::asset('resources/images/Icon/keyIcon.png') }}"
-                                            alt="image" width="25">
+                                                alt="image" width="25">
 
                                         </div>
 
@@ -169,7 +175,7 @@
                                     <div class="input-group">
                                         <div class="icon">
                                             <img src="{{ Vite::asset('resources/images/Icon/keyIcon.png') }}"
-                                            alt="image" width="25">
+                                                alt="image" width="25">
 
 
                                         </div>
@@ -189,7 +195,7 @@
 
                                 <input type="hidden" name="role" value="member">
 
-                                <div class="col-md-6 mb-3 w-100">
+                                <div class="col-md-6  mb-5 w-100">
 
                                     <div class="input-group">
                                         <div class="icon">
@@ -206,14 +212,14 @@
                             </div>
 
 
-
-                        </div>
-
-
-                        <div class="col-md-6 d-grid m-auto">
+   <div class="col-md-6 d-grid m-auto w-100">
                             <button type="submit" class="btn mainColor text-white btn-lg mt-3 fw-bold">
                                 Register</button>
                         </div>
+                        </div>
+
+
+                     
                     </div>
                 </form>
             </div>
@@ -229,7 +235,7 @@
     @vite('resources/js/app.js')
 
     <style>
-        @media (max-width: 769px){
+        @media (max-width: 769px) {
             .bodyCont {
                 display: none
             }

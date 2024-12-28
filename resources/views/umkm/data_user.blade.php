@@ -1,60 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>SeeU - Sistem Informasi UMKM</title>
-    @vite('resources/sass/app.scss')
-
-    <style>
-        body {
-            background-color: rgb(22, 22, 22);
-
-        }
-    </style>
-</head>
-
-<body>
+@extends('layouts.app')
 
 
+@section('content')
     <div class="text-center">
         <div class="d-flex">
-            <div class="leftContent p-2 gap-50 vh-100" id="leftContent">
-
-                <div class="topContent h-100">
-
-                    <img class="mx-auto mb-5" src="{{ Vite::asset('resources/images/Logo/logo_verti.png') }}"
-                        width="200px" alt="image">
 
 
-                    <div class="w-100 mt-5 h-100">
-                        <div class="d-grid">
-                            <a class="btn btn-dark mb-3" href="{{ route('admin.index') }}"
-                                style="color:rgb(70, 70, 70)">Home</a>
-
-                            <a class="btn btn-dark mb-3" href="{{ route('dataUmkm') }}"
-                                style="color:rgb(70, 70, 70)">UMKM</a>
-                            <a class="btn btn-warning fw-bold  mb-3" href="{{ route('dataUser') }}">Users</a>
-                            <a class="btn btn-dark mb-3" style="color:rgb(70, 70, 70)" href="{{ route('about') }}">About
-                                Us</a>
-                        </div>
-
-
-                    </div>
-                </div>
-
-                <div class="bottomContent">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="btn btn-danger w-100 fw-bold btnReg border-0" type="submit">Logout</button>
-                    </form>
-                </div>
-
-            </div>
             <div class="col rightContent bg-white vh-100">
-                @include('layouts.nav')
                 <div class="container mt-4">
                     <div class="row mb-0">
 
@@ -84,7 +36,7 @@
                         <table class="table table-bordered table-hover table-striped mb-0 bg-white" id="userTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+
                                     <th>Full Name</th>
                                     <th>Username</th>
                                     <th>Email</th>
@@ -93,16 +45,17 @@
                             </thead>
 
                             <tbody>
-                                    <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->fullName }}</td>
-                                        <td>{{ $user->userName }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->role }}</td>
+                                @foreach($user as $user)
+                                <tr>
+                                    <td>{{ $user->fullName }}</td>
+                                    <td>{{ $user->userName }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role }}</td>
 
-                                    </tr>
+                                </tr>
+                                @endforeach
 
-                          </tbody>
+                            </tbody>
                         </table>
 
 
@@ -270,7 +223,7 @@
                                                         {{ $selected == $dataUmkm->category->id ? 'selected' : '' }}>
                                                         {{ $dataUmkm->category->id .
                                                             ' -
-                                                                                                                                                                                                                                                                                                                                                                                                                                        ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ' .
                                                             $dataUmkm->category->name }}
                                                     </option>
                                                 </select>
@@ -369,12 +322,5 @@
         });
     </script>
 
-
-
-
-
     @vite('resources/js/app.js')
-
-</body>
-
-</html>
+@endsection
