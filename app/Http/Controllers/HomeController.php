@@ -35,7 +35,6 @@ class HomeController extends Controller
         $fashion = UMKM::where('category_id', 2)->get();
         $service = UMKM::where('category_id', 3)->get();
         $pageTitle = "Home";
-        $user = auth()->user();
     $umkm = Umkm::where('id_user', $user->id)->get();
 
         return view('home', [

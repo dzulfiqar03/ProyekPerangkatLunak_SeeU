@@ -23,7 +23,8 @@
                                     <!-- Profile dropdown -->
                                     <div class="relative ml-3">
                                         <div>
-                                            <img class="rounded-full bg-cover border border-white" style="height:45px; width:100px"
+                                            <img class="rounded-full bg-cover border border-white"
+                                                style="height:45px; width:100px"
                                                 src="{{ Storage::url('images/' . Auth::user()->original_filename) }}"
                                                 alt="">
                                         </div>
@@ -101,19 +102,18 @@
                                         href="{{ route('allUmkm') }}">UMKM</a>
                                     <a class="btn btn-warning fw-bold  mb-3" href="{{ route('about') }}">About
                                         Us</a>
-                              
-                                @else
                                 @endif
 
                                 @if ($currentRouteName == 'owner')
-                                <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
-                                href="{{ route('home', ['id' => Auth::user()->id]) }}">Home</a>
+                                    <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
+                                        href="{{ route('home', ['id' => Auth::user()->id]) }}">Home</a>
 
-                            <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
-                                href="{{ route('allUmkm') }}">UMKM</a>
-                            <a class="btn btn-dark mb-3 " style="color:rgb(70, 70, 70)" href="{{ route('about') }}">About
-                                Us</a>
-                            @endif
+                                    <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
+                                        href="{{ route('allUmkm') }}">UMKM</a>
+                                    <a class="btn btn-dark mb-3 " style="color:rgb(70, 70, 70)"
+                                        href="{{ route('about') }}">About
+                                        Us</a>
+                                @endif
 
 
                                 @if ($currentRouteName == 'dataUmkm')
@@ -126,7 +126,7 @@
                                         style="color:rgb(70, 70, 70)">Users</a>
                                 @endif
 
-                                @if (Auth::user()->role == 'admin' && $currentRouteName == 'admins')
+                                @if (Request::is('admin'))
                                     <a class="btn btn-warning  fw-bold mb-3" href="{{ route('admin.index') }}">Home</a>
 
                                     <a class="btn btn-dark  mb-3" href="{{ route('dataUmkm') }}"

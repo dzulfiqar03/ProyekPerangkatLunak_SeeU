@@ -36,9 +36,16 @@
                         @click="open = !open" @keydown.escape.window="open = false" id="user-menu-button"
                         aria-expanded="false" aria-haspopup="true">
                         <span class="sr-only">Open user menu</span>
+                        @if($currentRouteName == 'admin')
                         <img width="50" height="100" class="rounded-full bg-cover border border-white"
+                        style="height:50px" src=""
+                        alt="User Avatar">
+                        @else
+                         <img width="50" height="100" class="rounded-full bg-cover border border-white"
                             style="height:50px" src="{{ Storage::url('images/' . Auth::user()->original_filename) }}"
                             alt="User Avatar">
+                        @endif
+                       
                         <h5 class="m-auto px-3">Profile</h5>
                         <svg data-accordion-icon class="w-3 h-3 m-auto rotate-180 shrink-0" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">

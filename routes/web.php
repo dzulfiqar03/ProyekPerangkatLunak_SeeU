@@ -45,13 +45,12 @@ Route::get('/guestPage', function () {
 Route::middleware('auth')->group(function () {
 
 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admins');
     Route::get('/home/{id}', [HomeController::class, 'index'])->name('home');
     Route::get('/dataUmkm', [dataUmkmController::class, 'index'])->name('dataUmkm');
     Route::get('/dataUser', [dataUserController::class, 'index'])->name('dataUser');
     Route::get('/owner/{id}', [ownerController::class, 'index'])->name('owner');
     Route::get('/allUmkm', [allUmkmController::class, 'index'])->name('allUmkm');
-
+    Route::get('/admin', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/umkmDetail/{id}', [umkmDetailController::class, 'index'])->name('detail');
 

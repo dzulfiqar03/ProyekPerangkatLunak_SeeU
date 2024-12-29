@@ -34,7 +34,9 @@ $currentRouteName = Route::currentRouteName();
         </div>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper @if (Request::is('admin'))
+                                  h-screen
+                                @endif ">
 
             <!-- Main content -->
                     @yield('content')
