@@ -67,7 +67,9 @@
                             </div>
                         </div>
 
-                        <div class="item-body pl-10 ml-5 pb-5 d-flex">
+                        <div class="item-body @if ($umkm->isEmpty())
+                                           pl-10 ml-5
+                                        @endif   pb-5 d-flex">
                             <div class="sub-body1">
                                 <div class="text-center item2">
                                     <div class="row product-list2 w-100">
@@ -75,15 +77,15 @@
                                             <p style="width:100vw">Kosong</p>
                                         @endif
 
-                                        @foreach ($umkm as $umkms)
+                                        @foreach ($umkm->take(6) as $umkms)
                                             <div class="col items" style="flex:0">
                                                 <a class="text-decoration-none"
                                                     href="{{ route('detail', ['id' => $umkms->id]) }}">
 
                                                     <div class="card" style="width: 18rem; height:344px">
-                                                        <img class="card-img-top"
+                                                        <img class="card-img-top" style="height: 200px"
                                                             src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                            width="1366px" height="200px" alt="image">
+                                                            width="1366px"  alt="image">
                                                         <div class="card-body ">
                                                             <h5 class="card-title text-decoration-none txtMain">
                                                                 {{ $umkms->umkm }}</h5>
@@ -441,35 +443,21 @@
     
     <style>
         .btn3.active, .btn2.active, .btn4.active {
-            background-color: yellow;
+            background-color: #323A5A;
+            color: white
+
+        }
+
+        .btn3, .btn4, .btn2 {
+            background-color: rgb(231, 231, 231);
+            color: rgb(0, 0, 0)
 
         }
 
 
 
-
     </style>
     <script>
-        var btnTgl1 = document.getElementById('btnTgl1');
-        var btnTgl2 = document.getElementById('btnTgl2');
-        var leftContent = document.getElementById('leftContent');
-        var backToogle = document.getElementById('backToogle');
-
-
-
-        btnTgl1.addEventListener("click", function() {
-            leftContent.style.display = "grid";
-            btnTgl1.style.transform = "scale(0)";
-            backToogle.style.transform = "scale(1)";
-            backToogle.style.position = "static";
-            btnTgl1.style.position = "absolute";
-        });
-
-        backToogle.addEventListener("click", function() {
-            leftContent.style.display = "none";
-            btnTgl1.style.transform = "scale(1)";
-            backToogle.style.transform = "scale(0)";
-        });
 
 
 
@@ -489,8 +477,6 @@
             product2.style.transform = "translateX(0px)";
             product3.style.transform = "translateX(0px)";
             product4.style.transform = "translateX(0px)";
-            btn3.style.backgroundColor = "rgb(231, 231, 231)";
-            btn4.style.backgroundColor = "rgb(231, 231, 231)"
 
         });
 
@@ -499,14 +485,12 @@
             btn2.classList.remove("active");
             btn4.classList.remove("active");
 
-            product2.style.transform = "translateX(-1192px)";
+            product2.style.transform = "translateX(-1130px)";
             product2.style.transition = "3s";
-            product3.style.transform = "translateX(-1192px)";
+            product3.style.transform = "translateX(-1130px)";
             product3.style.transition = "3s";
-            product4.style.transform = "translateX(-1192px)";
+            product4.style.transform = "translateX(-1130px)";
             product4.style.transition = "3s";
-            btn2.style.backgroundColor = "rgb(231, 231, 231)"
-            btn4.style.backgroundColor = "rgb(231, 231, 231)"
         });
 
         btn4.addEventListener("click", function() {
@@ -514,14 +498,12 @@
             btn2.classList.remove("active");
             btn3.classList.remove("active");
 
-            product2.style.transform = "translateX(-2369px)";
+            product2.style.transform = "translateX(-2314px)";
             product2.style.transition = "3s";
-            product3.style.transform = "translateX(-2369px)";
+            product3.style.transform = "translateX(-2314px)";
             product3.style.transition = "3s";
-            product4.style.transform = "translateX(-2369px)";
+            product4.style.transform = "translateX(-2314px)";
             product4.style.transition = "3s";
-            btn2.style.backgroundColor = "rgb(231, 231, 231)";
-            btn3.style.backgroundColor = "rgb(231, 231, 231)"
         });
     </script>
 

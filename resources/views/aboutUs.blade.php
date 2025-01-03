@@ -2,38 +2,67 @@
 
 
 @section('content')
-
     <div class="text-center h-screen bg-white">
 
 
-                <div class="row justify-content-center m-auto">
-                    <div class="col-md-8 mt-5">
-                        <div class="card shadow-lg p-3 mb-5 bg-body rounded">
-                            <div class="card-body">
-                                <img src="{{ Vite::asset('resources/images/jawa_timur.png') }}" alt="image"
-                                    width="500">
-                                <h1 class="fas fa-h1    "></i>About Us</h1>
-                                <p class="card-text">
-                                    SeeU - Sistem Informasi UMKM adalah platform yang didedikasikan untuk mendukung dan
-                                    mempromosikan Usaha Mikro, Kecil, dan Menengah (UMKM) di Jawa Timur. Kami
-                                    berkomitmen untuk memberikan solusi teknologi yang memudahkan UMKM dalam mengelola
-                                    operasional sehari-hari, meningkatkan visibilitas pasar, dan mengakses sumber daya
-                                    yang lebih luas.
-                                </p>
-                                <h1 class="card-title"> Visi dan Misi</h1>
-                                <p class="card-text">
-                                    Misi kami adalah mengempower UMKM untuk tumbuh dan bersaing di era digital dengan
-                                    menyediakan alat yang efektif dan efisien
-                                </p>
-                                <p class="card-text">
-                                    Visi kami adalah menjadi penyedia layanan UMKM terdepan bagi UMKM yang ada di
-                                    seluruh jawa timur agar saling terintegrasi
-                                </p>
+        <div class="row justify-content-center m-auto">
+            <div class="col-md-10 mt-5">
+                <div class=" p-3 mb-5 bg-body rounded">
+                    <div class="">
+                        <img src="{{ Vite::asset('resources/images/jawa_timur.png') }}" alt="image" width="500"
+                            class="m-auto">
 
+                        <div class="col mt-5">
+                            <h1>SEEU - SI UMKM KETINTANG</h1>
+                            <p class="">
+                                SeeU - Sistem Informasi UMKM adalah platform yang didedikasikan untuk mendukung dan
+                                mempromosikan Usaha Mikro, Kecil, dan Menengah (UMKM) di Jawa Timur. Kami
+                                berkomitmen untuk memberikan solusi teknologi yang memudahkan UMKM dalam mengelola
+                                operasional sehari-hari, meningkatkan visibilitas pasar, dan mengakses sumber daya
+                                yang lebih luas.
+                            </p>
+
+                            <div class="row mt-5">
+
+
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h1 class="text-center">Visi</h1>
+
+                                            <p class="card-text">
+                                                Visi kami adalah menjadi penyedia layanan UMKM terdepan bagi UMKM yang ada
+                                                di
+                                                seluruh jawa timur agar saling terintegrasi
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1 class="text-center">Misi</h1>
+                                            <p class="card-text">
+                                                Misi kami adalah mengempower UMKM untuk tumbuh dan bersaing di era digital
+                                                dengan
+                                                menyediakan alat yang efektif dan efisien
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
+
                         </div>
+
+
                     </div>
                 </div>
+            </div>
+        </div>
 
     </div>
 
@@ -112,5 +141,4 @@
     @vite('resources/js/app.js')
 
     @vite('resources/js/home.js')
-
-    @endsection
+@endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApproveUMKMModel;
 use App\Models\Category;
 use App\Models\Umkm;
 use App\Models\User;
@@ -94,7 +95,7 @@ class UMKMController extends Controller
         }
 
         // ELOQUENT
-        $umkm = new Umkm;
+        $umkm = new Umkm();
         $umkm->umkm = $request->umkm;
         $umkm->description = $request->description;
         $umkm->email = $request->email;
@@ -139,7 +140,47 @@ class UMKMController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       //
+         // Get File
+         $file = $request->file('usahaDoc');
+         $photo = $request->file('imgPhoto');
+
+         if ($file != null && $photo != null) {
+             $original_filesname = $file->getClientOriginalName();
+             $encrypted_filesname = $file->hashName();
+
+             // Store File
+             $file->store('public/files/documentUser/suratIzin');
+
+             $original_photoname = $photo->getClientOriginalName();
+             $encrypted_photoname = $photo->hashName();
+
+             // Store File
+             $photo->store('public/files/documentUser/profileUMKM');
+
+         }
+
+         // ELOQUENT
+         $umkm = Umkm::find($id);
+         $umkm->umkm = $request->umkm;
+         $umkm->description = $request->description;
+         $umkm->email = $request->email;
+         $umkm->address = $request->address;
+         $umkm->telephone_number = $request->telNum;
+         $umkm->category_id = $request->category;
+
+         if ($file != null && $photo != null) {
+             $umkm->original_photoname = $original_photoname;
+             $umkm->encrypted_photoname = $encrypted_photoname;
+
+             $umkm->original_filesname = $original_filesname;
+             $umkm->encrypted_filesname = $encrypted_filesname;
+         }
+
+         $umkm->save();
+
+
+
+         return redirect()->route('detail' , $id);
     }
 
     /**

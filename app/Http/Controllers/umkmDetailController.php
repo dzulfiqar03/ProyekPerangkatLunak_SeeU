@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\UMKM;
 
@@ -17,8 +18,18 @@ class umkmDetailController extends Controller
             return abort(404);
         }
 
+        $category = Category::all();
 
-        return view('umkm.umkm_detail', compact('umkm' , 'idUmkm'));
+        $pageTitle = "Detail UMKM";
+
+
+        return view('umkm.umkm_detail', [
+            'umkm' => $umkm,
+            'idUmkm' => $idUmkm,
+            'pageTitle' => $pageTitle,
+            'category' => $category
+
+        ]);
     }
 
     public function show($id)
@@ -26,6 +37,4 @@ class umkmDetailController extends Controller
         $umkm = UMKM::findOrFail($id);
         return view('umkm.show', compact('umkm'));
     }
-
-
 }

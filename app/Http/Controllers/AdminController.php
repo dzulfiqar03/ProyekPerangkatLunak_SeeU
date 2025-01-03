@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charts\UmkmChart;
 use App\Exports\UmkmExport;
+use App\Models\ApproveUMKMModel;
 use App\Models\Category;
 use App\Models\Umkm;
 use App\Models\User;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -20,6 +22,7 @@ class AdminController extends Controller
      */
     public function index(UmkmChart $chart)
     {
+        $approveUMKM = ApproveUMKMModel::all();
         $category = Category::all();
         $user = User::all();
         $umkm = Umkm::all();
@@ -39,6 +42,7 @@ class AdminController extends Controller
             'service' => $service,
             'chart' => $chart->build(),
             'pageTitle' => $pageTitle,
+            'approveUMKM' => $approveUMKM,
 
         ]);
     }
@@ -56,9 +60,53 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'email' => 'Isi :attribute dengan format yang benar',
+            'numeric' => 'Isi :attribute dengan angka'
+        ];
 
+        $validator = Validator::make($request->all(), [
+            'umkm' => 'required',
+            'description' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+            'telNum' => 'required',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
+        // ELOQUENT
+        $umkm = new Umkm;
+        $umkm->umkm = $request->umkm;
+        $umkm->description = $request->description;
+        $umkm->email = $request->email;
+        $umkm->address = $request->address;
+        $umkm->id_user = $request->id;
+        $umkm->telephone_number = $request->telNum;
+        $umkm->category_id = $request->category;
+
+        $original_filesname = $request->usahaDoc;
+        $encrypted_filesname = $request->encDoc;
+
+
+        $original_photoname = $request->imgPhoto;
+        $encrypted_photoname = $request->encPhoto;
+
+
+        $umkm->original_photoname = $original_photoname;
+        $umkm->encrypted_photoname = $encrypted_photoname;
+
+        $umkm->original_filesname = $original_filesname;
+        $umkm->encrypted_filesname = $encrypted_filesname;
+
+        $umkm->save();
+
+        return redirect()->route('admin.index');
+    }
     /**
      * Display the specified resource.
      */
@@ -67,7 +115,6 @@ class AdminController extends Controller
         $umkm = Umkm::find($id);
 
         return view('umkm.show', compact('umkm'));
-
     }
 
     /**
@@ -83,56 +130,61 @@ class AdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         // Get File
-         $file = $request->file('usahaDoc');
-         $photo = $request->file('imgPhoto');
+        // Get File
+        $file = $request->file('usahaDoc');
+        $photo = $request->file('imgPhoto');
 
-         if ($file != null && $photo != null) {
-             $original_filesname = $file->getClientOriginalName();
-             $encrypted_filesname = $file->hashName();
+        if ($file != null && $photo != null) {
+            $original_filesname = $file->getClientOriginalName();
+            $encrypted_filesname = $file->hashName();
 
-             // Store File
-             $file->store('public/files/documentUser/suratIzin');
+            // Store File
+            $file->store('public/files/documentUser/suratIzin');
 
-             $original_photoname = $photo->getClientOriginalName();
-             $encrypted_photoname = $photo->hashName();
+            $original_photoname = $photo->getClientOriginalName();
+            $encrypted_photoname = $photo->hashName();
 
-             // Store File
-             $photo->store('public/files/documentUser/profileUMKM');
+            // Store File
+            $photo->store('public/files/documentUser/profileUMKM');
+        }
 
-         }
+        // ELOQUENT
+        $umkm = Umkm::find($id);
+        $umkm->umkm = $request->umkm;
+        $umkm->description = $request->description;
+        $umkm->email = $request->email;
+        $umkm->address = $request->address;
+        $umkm->telephone_number = $request->telNum;
+        $umkm->category_id = $request->category;
 
-         // ELOQUENT
-         $umkm = new Umkm;
-         $umkm->umkm = $request->umkm;
-         $umkm->description = $request->description;
-         $umkm->email = $request->email;
-         $umkm->address = $request->address;
-         $umkm->telephone_number = $request->telNum;
-         $umkm->category_id = $request->category;
+        if ($file != null && $photo != null) {
+            $umkm->original_photoname = $original_photoname;
+            $umkm->encrypted_photoname = $encrypted_photoname;
 
-         if ($file != null && $photo != null) {
-             $umkm->original_photoname = $original_photoname;
-             $umkm->encrypted_photoname = $encrypted_photoname;
+            $umkm->original_filesname = $original_filesname;
+            $umkm->encrypted_filesname = $encrypted_filesname;
+        }
 
-             $umkm->original_filesname = $original_filesname;
-             $umkm->encrypted_filesname = $encrypted_filesname;
-         }
-
-         $umkm->save();
-
+        $umkm->save();
 
 
-         return redirect()->route('dataUmkm');
+
+        return redirect()->route('dataUmkm');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
-    }
+        $data = $request->all(); 
+        // Assuming you have a unique identifier in your data (e.g., 'name')
+        $yourModel = ApproveUMKMModel::where('umkm', $data['umkm'])->firstOrFail(); 
+
+
+        $yourModel->delete();
+
+        return redirect()->route('admin.index')->with('success', 'Data berhasil ditambahkan');    }
 
     public function exportExcel()
     {
@@ -152,7 +204,7 @@ class AdminController extends Controller
     {
         $umkm = Umkm::find($umkmId);
         $encryptedFilename = 'public/files/documentUser/suratIzin/' . $umkm->encrypted_filesname;
-        $downloadFilename = Str::lower($umkm->umkm.'_cv.pdf');
+        $downloadFilename = Str::lower($umkm->umkm . '_cv.pdf');
 
         if (Storage::exists($encryptedFilename)) {
             return Storage::download($encryptedFilename, $downloadFilename);

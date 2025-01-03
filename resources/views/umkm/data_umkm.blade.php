@@ -36,7 +36,6 @@
                         <table class="table table-bordered table-hover table-striped mb-0 bg-white" id="umkmTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>No.</th>
                                     <th>UMKM</th>
                                     <th>Description</th>
@@ -50,7 +49,6 @@
                             <tbody>
                                 @foreach ($umkm as $umkms)
                                     <tr>
-                                        <td>{{ $umkms->id }}</td>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $umkms->umkm }}</td>
                                         <td>{{ $umkms->description }}</td>
@@ -175,7 +173,7 @@
                                                         {{ $selected == $dataUmkm->category->id ? 'selected' : '' }}>
                                                         {{ $dataUmkm->category->id .
                                                             ' -
-                                                                                                                                                                                                                                                                                                                                                                                ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ' .
                                                             $dataUmkm->category->name }}
                                                     </option>
                                                 </select>
@@ -224,6 +222,14 @@
                                         </div>
                                         <hr>
                                         <div class="row">
+
+                                            <button type="button"
+                                                class="btn btn-outline-dark btn-lg mt-3 fw-bold w-100 fw-bold"
+                                                data-bs-toggle="modal" data-bs-target="#editUMKM">
+                                                <i class="bi bi-person-lines-fill me-1"></i>Show UMKM
+                                            </button>
+
+
                                             <div class="col-md-6 d-grid">
                                                 <a href="{{ route('dataUmkm') }}"
                                                     class="btn btn-outline-dark btn-lg mt-3"><i

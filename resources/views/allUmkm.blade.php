@@ -37,7 +37,7 @@
                                         <a class="text-decoration-none" href="{{ route('detail', ['id' => $umkms->id]) }}">
 
                                             <div class="card" style="width: 18rem; height:344px">
-                                                <img class="card-img-top"
+                                                <img class="card-img-top" style="height: 200px"
                                                     src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
                                                     width="1366px" height="200px" alt="image">
                                                 <div class="card-body text-center">

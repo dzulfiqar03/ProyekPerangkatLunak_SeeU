@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UMKM::class, 'id_user', 'id');
     }
+
+    public function umkmapprove()
+    {
+        return $this->hasMany(ApproveUMKMModel::class, 'id_user', 'id');
+    }
 }

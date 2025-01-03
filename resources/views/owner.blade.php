@@ -44,7 +44,9 @@
                             </div>
 
 
-                            <div class="item-body mt-5  pl-10 ml-5 pb-5 d-flex">
+                            <div class="item-body mt-5  @if ($umkm->isEmpty())
+                                           pl-10 ml-5
+                                        @endif pb-5 d-flex">
                                 <div class="sub-body1">
                                     <div class="text-center item2">
                                         <div class="row product-list2 w-100">
@@ -58,7 +60,7 @@
                                                             href="{{ route('detail', ['id' => $umkms->id]) }}">
 
                                                             <div class="card d-flex" style="width: 18rem; height:344px">
-                                                                <img class="card-img-top"
+                                                                <img class="card-img-top" style="height: 200px"
                                                                     src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
                                                                     width="1366px" height="200px" alt="image">
                                                                 <div class="card-body ">
@@ -104,7 +106,7 @@
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form action="{{ route('umkm.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('approveumkm.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                             <div class="modal-header">
@@ -189,7 +191,7 @@
                                     <input type="file" class="form-control" name="usahaDoc" id="usahaDoc">
                                 </div>
 
-                                <div class="col-md-6 mb-3 w-100">
+                                <div class="col-md-12 mb-3">
                                     <label for="cv" class="form-label">
                                         Profil Usaha
                                     </label>

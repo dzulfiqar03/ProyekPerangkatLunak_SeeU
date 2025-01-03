@@ -2,70 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApproveUMKMModel;
+use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Umkm;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-
-class HomeController extends Controller
+class ApproveUMKMModelController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
+     /**
+     * Display a listing of the resource.
      */
-    public function __construct()
+    public function index()
     {
-        $this->middleware('guest');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index(Request $request, $id)
-    {
+        Alert::success('Added Successfully', 'UMKM Data Added Successfully.');
         $category = Category::all();
         $user = User::all();
-        $user = Auth::user();
+        $umkm = Umkm::all();
         $umkmCount = Umkm::all()->count();
-        $culinary = Umkm::orderBy('id_user')->take(3)->get();
+        $culinary = Umkm::orderBy('id')->take(3)->get();
         $fashion = UMKM::where('category_id', 2)->get();
         $service = UMKM::where('category_id', 3)->get();
-        $pageTitle = "Home";
-        $umkm = Umkm::where('id_user', $user->id)->get();
+        $pageTitle = "UMKM";
 
-        return view('home', [
+
+        return redirect()->route('home', ['id' => Auth::user()->id]) ->with([
             'user' => $user,
-            'category' => $category,
+            'categorys' => $category,
             'umkm' => $umkm,
             'umkmCount' => $umkmCount,
             'culinary' => $culinary,
             'fashion' => $fashion,
             'service' => $service,
             'pageTitle' => $pageTitle,
+
         ]);
     }
-
-    public function getData(Request $request)
-    {
-        $umkm = Umkm::with('category');
-
-        if ($request->ajax()) {
-            return datatables()->of($umkm)
-                ->addIndexColumn()
-                ->addColumn('actions', function ($umkm) {
-                    return view('umkm.actions', compact('umkm'));
-                })
-                ->toJson();
-        }
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -114,10 +89,12 @@ class HomeController extends Controller
 
             // Store File
             $photo->storeAs('public/files/documentUser/profileUMKM', $original_photoname);
+
+
         }
 
         // ELOQUENT
-        $umkm = new Umkm;
+        $umkm = new ApproveUMKMModel;
         $umkm->umkm = $request->umkm;
         $umkm->description = $request->description;
         $umkm->email = $request->email;
@@ -162,46 +139,47 @@ class HomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Get File
-        $file = $request->file('usahaDoc');
-        $photo = $request->file('imgPhoto');
+         // Get File
+         $file = $request->file('usahaDoc');
+         $photo = $request->file('imgPhoto');
 
-        if ($file != null && $photo != null) {
-            $original_filesname = $file->getClientOriginalName();
-            $encrypted_filesname = $file->hashName();
+         if ($file != null && $photo != null) {
+             $original_filesname = $file->getClientOriginalName();
+             $encrypted_filesname = $file->hashName();
 
-            // Store File
-            $file->store('public/files/documentUser/suratIzin');
+             // Store File
+             $file->store('public/files/documentUser/suratIzin');
 
-            $original_photoname = $photo->getClientOriginalName();
-            $encrypted_photoname = $photo->hashName();
+             $original_photoname = $photo->getClientOriginalName();
+             $encrypted_photoname = $photo->hashName();
 
-            // Store File
-            $photo->store('public/files/documentUser/profileUMKM');
-        }
+             // Store File
+             $photo->store('public/files/documentUser/profileUMKM');
 
-        // ELOQUENT
-        $umkm = Umkm::find($id);
-        $umkm->umkm = $request->umkm;
-        $umkm->description = $request->description;
-        $umkm->email = $request->email;
-        $umkm->address = $request->address;
-        $umkm->telephone_number = $request->telNum;
-        $umkm->category_id = $request->category;
+         }
 
-        if ($file != null && $photo != null) {
-            $umkm->original_photoname = $original_photoname;
-            $umkm->encrypted_photoname = $encrypted_photoname;
+         // ELOQUENT
+         $umkm = Umkm::find($id);
+         $umkm->umkm = $request->umkm;
+         $umkm->description = $request->description;
+         $umkm->email = $request->email;
+         $umkm->address = $request->address;
+         $umkm->telephone_number = $request->telNum;
+         $umkm->category_id = $request->category;
 
-            $umkm->original_filesname = $original_filesname;
-            $umkm->encrypted_filesname = $encrypted_filesname;
-        }
+         if ($file != null && $photo != null) {
+             $umkm->original_photoname = $original_photoname;
+             $umkm->encrypted_photoname = $encrypted_photoname;
 
-        $umkm->save();
+             $umkm->original_filesname = $original_filesname;
+             $umkm->encrypted_filesname = $encrypted_filesname;
+         }
+
+         $umkm->save();
 
 
 
-        return redirect()->route('detail', $id);
+         return redirect()->route('detail' , $id);
     }
 
     /**
@@ -223,17 +201,5 @@ class HomeController extends Controller
         $umkm->delete();
 
         return redirect()->route('dataUmkm');
-    }
-
-    public function getUser(Request $request)
-    {
-        $user = User::all();
-
-        if ($request->ajax()) {
-            return datatables()->of($user)
-                ->addIndexColumn()
-
-                ->toJson();
-        }
     }
 }

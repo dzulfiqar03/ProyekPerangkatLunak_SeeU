@@ -1,5 +1,5 @@
 @php
-$currentRouteName = Route::currentRouteName();
+    $currentRouteName = Route::currentRouteName();
 @endphp
 
 
@@ -34,12 +34,10 @@ $currentRouteName = Route::currentRouteName();
         </div>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper @if (Request::is('admin'))
-                                  h-screen
-                                @endif ">
+        <div class="content-wrapper @if (Request::is('admin')) h-screen @endif ">
 
             <!-- Main content -->
-                    @yield('content')
+            @yield('content')
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
@@ -49,8 +47,9 @@ $currentRouteName = Route::currentRouteName();
     @include('components.link.body')
     @yield('linkBody')
 
-    
-  
+
+    @include('sweetalert::alert')
+
 </body>
 
 </html>

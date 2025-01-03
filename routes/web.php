@@ -3,6 +3,7 @@
 use App\Http\Controllers\aboutUsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\allUmkmController;
+use App\Http\Controllers\ApproveUMKMModelController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\dataUmkmController;
 use App\Http\Controllers\dataUserController;
@@ -69,7 +70,8 @@ Route::post('/resetPassword', [ForgotPasswordController::class, 'resetPasswordPo
 
 Route::resource('umkm', UMKMController::class);
 Route::resource('admin', AdminController::class);
-
+Route::resource('approveumkm', ApproveUMKMModelController::class);
+Route::delete('/delete', [AdminController::class, 'destroy'])->name('delete');
 
 Route::get('getUmkm', [HomeController::class, 'getData'])->name('umkm.getData');
 Route::get('getUser', [HomeController::class, 'getUser'])->name('getUser');
