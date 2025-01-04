@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/umkmDetail/{id}', [umkmDetailController::class, 'index'])->name('detail');
+    Route::get('/umkmOwnerDetail/{id}', [umkmDetailController::class, 'index'])->name('detailOwner');
 
     Route::get('/aboutUs', [aboutUsController::class, 'index'])->name('about');
 });

@@ -30,7 +30,7 @@
                 <div class="h-100vh">
                     <div class="allBody h-screen">
                         <h1 class="fw-bold my-5">All UMKM</h1>
-                        <div class="row-cols-1 mr-0 row-cols-md-3 g-4">
+                        <div class="row g-4">
                             @foreach ($umkm as $umkms)
                                 <div class="col">
                                     <div class="m-auto align-items-center cards">

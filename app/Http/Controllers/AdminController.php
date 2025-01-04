@@ -30,7 +30,7 @@ class AdminController extends Controller
         $culinary = Umkm::where('category_id', 1)->get();
         $fashion = Umkm::where('category_id', 2)->get();
         $service = Umkm::where('category_id', 3)->get();
-        $pageTitle = "Home";
+        $pageTitle = "Admin Dashboard";
 
         return view('Menu.admin', [
             'user' => $user,

@@ -57,7 +57,7 @@
                                             @foreach ($umkm as $umkms)
                                                     <div class="col items mb-5 style="flex:0"">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('detail', ['id' => $umkms->id]) }}">
+                                                            href="{{ route('detailOwner', ['id' => $umkms->id]) }}">
 
                                                             <div class="card d-flex" style="width: 18rem; height:344px">
                                                                 <img class="card-img-top" style="height: 200px"
