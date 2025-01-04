@@ -88,7 +88,7 @@
                                         </tr>
 
                                         <div class="d-grid gap-2 text-start ">
-                                            <div class="d-grid gap-2 text-start" style="transform: scale(0.9)">
+                                            <div class="d-grid gap-2 text-start">
                                                 <div class="modal fade"  id="showUMKM{{ $umkm->id }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">

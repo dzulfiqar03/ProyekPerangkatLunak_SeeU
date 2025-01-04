@@ -202,7 +202,7 @@ class AdminController extends Controller
 
     public function downloadFile($umkmId)
     {
-        $umkm = Umkm::find($umkmId);
+        $umkm = ApproveUMKMModel::find($umkmId);
         $encryptedFilename = 'public/files/documentUser/suratIzin/' . $umkm->encrypted_filesname;
         $downloadFilename = Str::lower($umkm->umkm . '_cv.pdf');
 
