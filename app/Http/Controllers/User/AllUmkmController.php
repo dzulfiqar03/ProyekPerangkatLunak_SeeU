@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Models\Umkm;
 use App\Models\User;
-use Illuminate\Http\Request;
 
-class allUmkmController extends Controller
+class AllUmkmController extends Controller
 {
     public function index(){
         $user = User::all();
@@ -15,7 +14,7 @@ class allUmkmController extends Controller
         $umkmCount = Umkm::all()->count();
         $pageTitle = "UMKM";
 
-        return view('allUmkm', [
+        return view('pages.user.allUmkm', [
             'user' => $user,
             'umkm' => $umkm,
             'umkmCount' => $umkmCount,

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Charts\UmkmChart;
 use App\Exports\UmkmExport;
 use App\Models\ApproveUMKMModel;
@@ -32,7 +33,7 @@ class AdminController extends Controller
         $service = Umkm::where('category_id', 3)->get();
         $pageTitle = "Admin Dashboard";
 
-        return view('Menu.admin', [
+        return view('pages.admin.dashboard', [
             'user' => $user,
             'category' => $category,
             'umkm' => $umkm,
@@ -195,7 +196,7 @@ class AdminController extends Controller
     {
         $umkm = Umkm::all();
 
-        $pdf = PDF::loadView('umkm.export_pdf', compact('umkm'));
+        $pdf = PDF::loadView('export.export_pdf', compact('umkm'));
 
         return $pdf->download('umkm.pdf');
     }

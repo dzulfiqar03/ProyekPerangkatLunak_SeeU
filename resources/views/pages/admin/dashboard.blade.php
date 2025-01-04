@@ -73,8 +73,8 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td><img class="m-auto" style="height: 200px; width:400px"
-                                                src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkm->original_photoname) }}"
-                                                alt="image"></td>
+                                                    src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkm->original_photoname) }}"
+                                                    alt="image"></td>
                                             <td>{{ $umkm->umkm }}</td>
                                             <td>{{ $umkm->email }}</td>
                                             <td>{{ $umkm->telephone_number }}</td>
@@ -89,13 +89,13 @@
 
                                         <div class="d-grid gap-2 text-start ">
                                             <div class="d-grid gap-2 text-start">
-                                                <div class="modal fade"  id="showUMKM{{ $umkm->id }}" tabindex="-1"
+                                                <div class="modal fade" id="showUMKM{{ $umkm->id }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="p-3">
 
-                                                                <form id="myForm"  action="{{ route('admin.store') }}"
+                                                                <form id="myForm" action="{{ route('admin.store') }}"
                                                                     method="POST" enctype="multipart/form-data">
 
                                                                     {{ csrf_field() }}
@@ -115,8 +115,9 @@
                                                                                     <label for="umkm"
                                                                                         class="form-label">First
                                                                                         Name</label>
-                                                                           
-                                                                                    <h5 class="w-full">{{ $umkm->umkm }}</h5>
+
+                                                                                    <h5 class="w-full">{{ $umkm->umkm }}
+                                                                                    </h5>
                                                                                     <input
                                                                                         class="form-control
                                                                                     @error('umkm') is-invalid @enderror"
@@ -124,12 +125,13 @@
                                                                                         id="umkm"
                                                                                         value="{{ $errors->any() ? old('umkm') : $umkm->umkm }}"
                                                                                         placeholder="Enter UMKM">
-                                                                                  
+
                                                                                 </div>
                                                                                 <div class=" mb-3 w-100">
                                                                                     <label for="description"
                                                                                         class="form-label">Description</label>
-                                                                                        <h5 class="w-100">{{ $umkm->description }}</h5>
+                                                                                    <h5 class="w-100">
+                                                                                        {{ $umkm->description }}</h5>
                                                                                     <input
                                                                                         class="form-control @error('description')
                                                                                     is-invalid @enderror"
@@ -143,7 +145,7 @@
                                                                                     <label for="email"
                                                                                         class="form-label">Email</label>
 
-                                                                                        <h5>{{ $umkm->email }}</h5>
+                                                                                    <h5>{{ $umkm->email }}</h5>
                                                                                     <input
                                                                                         class="form-control @error('email')
                                                                                     is-invalid @enderror"
@@ -151,39 +153,40 @@
                                                                                         id="email"
                                                                                         value="{{ $errors->any() ? old('email') : $umkm->email }}"
                                                                                         placeholder="Enter Email">
-                                                                                    
+
                                                                                 </div>
                                                                                 <div class=" mb-3 w-100">
                                                                                     <label for="address"
                                                                                         class="form-label">Address</label>
 
-                                                                                        <h5>{{ $umkm->address }}</h5>
+                                                                                    <h5>{{ $umkm->address }}</h5>
                                                                                     <input
                                                                                         class="form-control @error('address') is-invalid @enderror"
                                                                                         type="hidden" name="address"
                                                                                         id="address"
                                                                                         value="{{ $errors->any() ? old('address') : $umkm->address }}"
                                                                                         placeholder="Enter address">
-                                                                                   
+
                                                                                 </div>
                                                                                 <div class=" mb-3 w-100">
                                                                                     <label for="telNum"
                                                                                         class="form-label">Age</label>
 
-                                                                                        <h5>{{ $umkm->telephone_number }}</h5>
+                                                                                    <h5>{{ $umkm->telephone_number }}</h5>
                                                                                     <input
                                                                                         class="form-control @error('telNum') is-invalid @enderror"
                                                                                         type="hidden" name="telNum"
                                                                                         id="telNum"
                                                                                         value="{{ $errors->any() ? old('telNum') : $umkm->telephone_number }}"
                                                                                         placeholder="Enter Telephone Number">
-                                                                                   
+
                                                                                 </div>
                                                                                 <div class=" mb-3 w-100">
                                                                                     <label for="category"
                                                                                         class="form-label">category</label>
-                                                                                        <h5>{{ $umkm->category->name }}</h5>
-                                                                                    <select hidden name="category" id="category"
+                                                                                    <h5>{{ $umkm->category->name }}</h5>
+                                                                                    <select hidden name="category"
+                                                                                        id="category"
                                                                                         class="form-select">
                                                                                         @php
                                                                                             $selected = '';
@@ -201,13 +204,13 @@
                                                                                             {{ $selected == $umkm->category->id ? 'selected' : '' }}>
                                                                                             {{ $umkm->category->id .
                                                                                                 ' -
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ' .
                                                                                                 $umkm->category->name }}
                                                                                         </option>
                                                                                     </select>
-                                                                                    
+
                                                                                 </div>
-                                                                                <div class= mb-3">
+                                                                                <div class=mb-3">
                                                                                     <label for="Files"
                                                                                         class="form-label">Surat
                                                                                         Izin Mendirikan

@@ -34,9 +34,9 @@ class HomeController extends Controller
         $user = User::all();
         $user = Auth::user();
         $umkmCount = Umkm::all()->count();
-        $culinary = Umkm::orderBy('id_user')->take(3)->get();
-        $fashion = UMKM::where('category_id', 2)->get();
-        $service = UMKM::where('category_id', 3)->get();
+        $culinary = UMKM::where('id_user', $id)->where('category_id', 1)->take(6)->get();
+        $fashion = UMKM::where('id_user', $id)->where('category_id', 2)->take(6)->get();
+        $service = UMKM::where('id_user', $id)->where('category_id', 3)->take(6)->get();
         $pageTitle = "Home";
         $umkm = Umkm::where('id_user', $user->id)->get();
 
@@ -52,6 +52,8 @@ class HomeController extends Controller
         ]);
     }
 
+
+    
     public function getData(Request $request)
     {
         $umkm = Umkm::with('category');
@@ -60,7 +62,7 @@ class HomeController extends Controller
             return datatables()->of($umkm)
                 ->addIndexColumn()
                 ->addColumn('actions', function ($umkm) {
-                    return view('umkm.actions', compact('umkm'));
+                    return view('components.actions', compact('umkm'));
                 })
                 ->toJson();
         }

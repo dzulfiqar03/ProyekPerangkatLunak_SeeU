@@ -33,43 +33,19 @@
 
                     <hr>
                     <div class="table-responsive border p-3 rounded-3">
-                        <table class="table table-bordered table-hover table-striped mb-0 bg-white" id="umkmTable">
+                        <table class="table table-bordered table-hover table-striped mb-0 bg-white" id="userTable">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
-                                    <th>UMKM</th>
-                                    <th>Description</th>
-                                    <th>Email</th>
-                                    <th>Telephone Number</th>
-                                    <th>Kategori</th>
+
                                     <th></th>
+                                    <th>No</th>
+                                    <th>Full Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                @foreach ($umkm as $umkms)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $umkms->umkm }}</td>
-                                        <td>{{ $umkms->description }}</td>
-                                        <td>{{ $umkms->email }}</td>
-                                        <td>{{ $umkms->telp_number }}</td>
-                                        <td>{{ $umkms->category->name }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editData{{ $umkms->id }}">
-                                                Edit
-                                            </button>
-                                            <form action="{{ route('umkm.destroy', $umkms->id) }}" method="POST"
-                                                style="display: inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
                         </table>
 
 
@@ -80,6 +56,70 @@
     </div>
 
 
+    @foreach ($umkm as $dataUmkm)
+        <div class="d-grid gap-2 text-start">
+            <div class="modal fade" id="showData{{ $dataUmkm->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="p-3">
+                            <div class="mb-3 text-center">
+                                <i class="bi-person-circle fs-1"></i>
+                                <h4>Detail dataUmkm</h4>
+                            </div>
+                            <hr>
+                            <div class="col">
+                                <div class="col-md-4 mb-3">
+                                    <label for="umkm" class="form-label">UMKM</label>
+                                    <h5>{{ $dataUmkm->umkm }}</h5>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <h5>{{ $dataUmkm->description }}</h5>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <h5>{{ $dataUmkm->email }}</h5>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <h5>{{ $dataUmkm->address }}</h5>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <h5>{{ $dataUmkm->telephone_number }}</h5>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="age" class="form-label">category</label>
+                                    <h5>{{ $dataUmkm->category->name }}</h5>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="age" class="form-label">Surat Izin Mendirikan Usaha</label>
+                                    @if ($dataUmkm->original_filesname)
+                                        <h5>{{ $dataUmkm->original_filesname }}</h5>
+                                        <a href="{{ route('admin.downloadFile', ['umkmId' => $dataUmkm->id]) }}"
+                                            class="btn btn-primary btn-sm mt-2">
+                                            <i class="bi bi-download me-1"></i> Download CV
+                                        </a>
+                                    @else
+                                        <h5>Tidak ada</h5>
+                                    @endif
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-md-12 d-grid">
+                                <a href="{{ route('dataUmkm') }}" class="btn btn-outline-dark btn-lg mt-3"><i
+                                        class="bi-arrow-left-circle me-2"></i> Back</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    @endforeach
 
     @foreach ($umkm as $dataUmkm)
         <div class="d-grid gap-2 text-start">
@@ -92,8 +132,8 @@
                             <form action="{{ route('admin.update', ['admin' => $dataUmkm->id]) }}" method="POST"
                                 enctype="multipart/form-data">
 
-                                {{ csrf_field() }}
-                                {{ method_field('PUT') }}
+                                @csrf
+                                @method('put')
                                 <div class="w-100 justify-content-center">
                                     <div class="bg-light rounded-3">
                                         <div class="p-3">
@@ -173,7 +213,7 @@
                                                         {{ $selected == $dataUmkm->category->id ? 'selected' : '' }}>
                                                         {{ $dataUmkm->category->id .
                                                             ' -
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ' .
                                                             $dataUmkm->category->name }}
                                                     </option>
                                                 </select>
@@ -222,14 +262,6 @@
                                         </div>
                                         <hr>
                                         <div class="row">
-
-                                            <button type="button"
-                                                class="btn btn-outline-dark btn-lg mt-3 fw-bold w-100 fw-bold"
-                                                data-bs-toggle="modal" data-bs-target="#editUMKM">
-                                                <i class="bi bi-person-lines-fill me-1"></i>Show UMKM
-                                            </button>
-
-
                                             <div class="col-md-6 d-grid">
                                                 <a href="{{ route('dataUmkm') }}"
                                                     class="btn btn-outline-dark btn-lg mt-3"><i
@@ -271,7 +303,6 @@
             btnTgl1.style.transform = "scale(0)";
             backToogle.style.transform = "scale(1)";
             backToogle.style.category = "static";
-            btnTgl1.style.category = "absolute";
         });
 
         backToogle.addEventListener("click", function() {
@@ -280,10 +311,53 @@
             backToogle.style.transform = "scale(0)";
         });
     </script>
-    @stack('scripts')
-
-
-
 
     @vite('resources/js/app.js')
 @endsection
+
+@push('scripts')
+    <script type="module">
+        $(document).ready(function() {
+            $("#userTable").DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: "/getUser",
+                columns: [{
+                        data: "id",
+                        name: "id",
+                        visible: false
+                    },
+                    {
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "fullName",
+                        name: "fullName"
+                    },
+                    {
+                        data: "userName",
+                        name: "userName"
+                    },
+                    {
+                        data: "email",
+                        name: "email"
+                    },
+                    {
+                        data: "role",
+                        name: "role"
+                    },
+                ],
+                order: [
+                    [0, "desc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"],
+                ],
+            });
+        });
+    </script>
+@endpush

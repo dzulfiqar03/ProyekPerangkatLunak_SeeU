@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Umkm;
-use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 
-class dataUmkmController extends Controller
+class DataUmkmController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $category = Category::all();
         $umkm = Umkm::all();
-
         $pageTitle = "Data UMKM";
 
-
-        return view('umkm.data_umkm', [
+        return view('pages.admin.data_umkm', [
             'category' => $category,
             'umkm' => $umkm,
             'pageTitle' => $pageTitle,
         ]);
-
-        
-
     }
 }

@@ -20,7 +20,7 @@ class UmkmExport implements FromView, WithStyles, ShouldAutoSize
 
     public function view(): View
     {
-        return view('umkm.export_excel', [
+        return view('export.export_excel', [
             'umkm' => Umkm::all()
         ]);
     }

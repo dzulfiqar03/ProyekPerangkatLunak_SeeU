@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\ApproveUMKMModel;
+use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Umkm;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class UMKMController extends Controller
+class ApproveUMKMController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,8 +30,7 @@ class UMKMController extends Controller
         $service = UMKM::where('category_id', 3)->get();
         $pageTitle = "UMKM";
 
-
-        return redirect()->route('home', ['id' => Auth::user()->id]) ->with([
+        return redirect()->route('home', ['id' => Auth::user()->id])->with([
             'user' => $user,
             'categorys' => $category,
             'umkm' => $umkm,
@@ -90,12 +90,10 @@ class UMKMController extends Controller
 
             // Store File
             $photo->storeAs('public/files/documentUser/profileUMKM', $original_photoname);
-
-
         }
 
         // ELOQUENT
-        $umkm = new Umkm();
+        $umkm = new ApproveUMKMModel;
         $umkm->umkm = $request->umkm;
         $umkm->description = $request->description;
         $umkm->email = $request->email;
@@ -140,47 +138,46 @@ class UMKMController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         // Get File
-         $file = $request->file('usahaDoc');
-         $photo = $request->file('imgPhoto');
+        // Get File
+        $file = $request->file('usahaDoc');
+        $photo = $request->file('imgPhoto');
 
-         if ($file != null && $photo != null) {
-             $original_filesname = $file->getClientOriginalName();
-             $encrypted_filesname = $file->hashName();
+        if ($file != null && $photo != null) {
+            $original_filesname = $file->getClientOriginalName();
+            $encrypted_filesname = $file->hashName();
 
-             // Store File
-             $file->store('public/files/documentUser/suratIzin');
+            // Store File
+            $file->store('public/files/documentUser/suratIzin');
 
-             $original_photoname = $photo->getClientOriginalName();
-             $encrypted_photoname = $photo->hashName();
+            $original_photoname = $photo->getClientOriginalName();
+            $encrypted_photoname = $photo->hashName();
 
-             // Store File
-             $photo->store('public/files/documentUser/profileUMKM');
+            // Store File
+            $photo->store('public/files/documentUser/profileUMKM');
+        }
 
-         }
+        // ELOQUENT
+        $umkm = Umkm::find($id);
+        $umkm->umkm = $request->umkm;
+        $umkm->description = $request->description;
+        $umkm->email = $request->email;
+        $umkm->address = $request->address;
+        $umkm->telephone_number = $request->telNum;
+        $umkm->category_id = $request->category;
 
-         // ELOQUENT
-         $umkm = Umkm::find($id);
-         $umkm->umkm = $request->umkm;
-         $umkm->description = $request->description;
-         $umkm->email = $request->email;
-         $umkm->address = $request->address;
-         $umkm->telephone_number = $request->telNum;
-         $umkm->category_id = $request->category;
+        if ($file != null && $photo != null) {
+            $umkm->original_photoname = $original_photoname;
+            $umkm->encrypted_photoname = $encrypted_photoname;
 
-         if ($file != null && $photo != null) {
-             $umkm->original_photoname = $original_photoname;
-             $umkm->encrypted_photoname = $encrypted_photoname;
+            $umkm->original_filesname = $original_filesname;
+            $umkm->encrypted_filesname = $encrypted_filesname;
+        }
 
-             $umkm->original_filesname = $original_filesname;
-             $umkm->encrypted_filesname = $encrypted_filesname;
-         }
-
-         $umkm->save();
-
+        $umkm->save();
 
 
-         return redirect()->route('detail' , $id);
+
+        return redirect()->route('detail', $id);
     }
 
     /**
@@ -202,23 +199,5 @@ class UMKMController extends Controller
         $umkm->delete();
 
         return redirect()->route('dataUmkm');
-    }
-
-    public function getAllUmkm()
-    {
-        $category = Category::all();
-        $user = User::all();
-        $umkm = Umkm::all();
-        $umkmCount = Umkm::all()->count();
-        $pageTitle = "UMKM";
-
-        return view('owner', [
-            'user' => $user,
-            'category' => $category,
-            'umkm' => $umkm,
-            'umkmCount' => $umkmCount,
-            'pageTitle' => $pageTitle,
-
-        ]);
     }
 }

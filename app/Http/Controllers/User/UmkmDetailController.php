@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\UMKM;
 
-class umkmDetailController extends Controller
+class UmkmDetailController extends Controller
 {
     public function index($id)
     {
         $umkm = UMKM::all();
-
         $idUmkm = $id;
 
         if (!$umkm) {
@@ -19,11 +18,9 @@ class umkmDetailController extends Controller
         }
 
         $category = Category::all();
-
         $pageTitle = "Detail UMKM";
 
-
-        return view('umkm.umkm_detail', [
+        return view('pages.user.umkm_detail', [
             'umkm' => $umkm,
             'idUmkm' => $idUmkm,
             'pageTitle' => $pageTitle,

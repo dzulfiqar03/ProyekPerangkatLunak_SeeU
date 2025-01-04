@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Models\ApproveUMKMModel;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Umkm;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-class ApproveUMKMModelController extends Controller
+
+class UMKMController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -94,7 +95,7 @@ class ApproveUMKMModelController extends Controller
         }
 
         // ELOQUENT
-        $umkm = new ApproveUMKMModel;
+        $umkm = new Umkm();
         $umkm->umkm = $request->umkm;
         $umkm->description = $request->description;
         $umkm->email = $request->email;
@@ -201,5 +202,23 @@ class ApproveUMKMModelController extends Controller
         $umkm->delete();
 
         return redirect()->route('dataUmkm');
+    }
+
+    public function getAllUmkm()
+    {
+        $category = Category::all();
+        $user = User::all();
+        $umkm = Umkm::all();
+        $umkmCount = Umkm::all()->count();
+        $pageTitle = "UMKM";
+
+        return view('owner', [
+            'user' => $user,
+            'category' => $category,
+            'umkm' => $umkm,
+            'umkmCount' => $umkmCount,
+            'pageTitle' => $pageTitle,
+
+        ]);
     }
 }

@@ -12,6 +12,11 @@
 @import "login";
 @import "admin";
 
+// DataTables
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
+@import 'datatables.net-select-bs5/css/select.bootstrap5.css';
 
 .item-body {
     gap: 40px;
@@ -25,7 +30,7 @@
 .item2,
 .item3,
 .item4 {
-    width: 1140px;
+    width: 1326px;
 }
 
 .itemBtn {
