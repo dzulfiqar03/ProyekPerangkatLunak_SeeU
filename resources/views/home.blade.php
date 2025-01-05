@@ -52,9 +52,9 @@
 
                                         <div id="accordion-color" data-accordion="collapse" class=""
                                             data-active-classes="btn-success">
-                                            <h2 id="accordion-color-heading-1" class="btn-light rounded-pill">
+                                            <h2 id="accordion-color-heading-1" class="btn-success rounded-pill">
                                                 <button onclick="filterTable('All Categories')"
-                                                    class="flex btn-light filter-btn btn-success w-full text-base rounded-pill p-2 justify-center gap-3 items-center justify"
+                                                    class="flex filter-btn btn-success w-full text-base rounded-pill p-2 justify-center gap-3 items-center justify"
                                                     data-accordion-target="#accordion-color-body-1" aria-expanded="true"
                                                     aria-controls="accordion-color-body-1">
                                                     <span>All Categories</span>
