@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('getUmkm', [HomeController::class, 'getData'])->name('getUmkm');
     Route::get('getUser', [HomeController::class, 'getUser'])->name('getUser');
+    Route::get('getCategory', [HomeController::class, 'getCategory'])->name('getCategory');
 
 
     Route::get('exportExcel', [AdminController::class, 'exportExcel'])->name('admin.exportExcel');

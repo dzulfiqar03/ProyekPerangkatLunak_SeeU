@@ -32,14 +32,14 @@ class HomeController extends Controller
     {
         $category = Category::all();
         $user = User::all();
-        $user = Auth::user();
+        $users = Auth::user();
         $umkmCount = Umkm::all()->count();
         $culinary = UMKM::where('id_user', $id)->where('category_id', 1)->take(6)->get();
         $fashion = UMKM::where('id_user', $id)->where('category_id', 2)->take(6)->get();
         $service = UMKM::where('id_user', $id)->where('category_id', 3)->take(6)->get();
         $pageTitle = "Home";
-        $umkm = Umkm::where('id_user', $user->id)->get();
-
+        $umkm = Umkm::where('id_user', $users->id)->get();
+        $allUmkm = Umkm::all();
         return view('home', [
             'user' => $user,
             'category' => $category,
@@ -49,6 +49,7 @@ class HomeController extends Controller
             'fashion' => $fashion,
             'service' => $service,
             'pageTitle' => $pageTitle,
+            'allUmkm' => $allUmkm,
         ]);
     }
 
@@ -235,6 +236,20 @@ class HomeController extends Controller
             return datatables()->of($user)
                 ->addIndexColumn()
 
+                ->toJson();
+        }
+    }
+
+    public function getCategory(Request $request)
+    {
+        $category = Category::all();
+
+        if ($request->ajax()) {
+            return datatables()->of($category)
+                ->addIndexColumn()
+                ->addColumn('categories', function ($category) {
+                    return view('components.categories', compact('category'));
+                })
                 ->toJson();
         }
     }

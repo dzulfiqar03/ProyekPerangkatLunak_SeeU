@@ -45,136 +45,175 @@
 
                         </div>
 
-                        <div class="categoryBody mb-5 mt-5">
-                            <div class="container text-center">
-                                <div class="row">
-                                    <div class="col">
-                                        <button
-                                            class="filter-btn active  btn2 border-0 py-2 w-100 rounded fw-bold">Culinary</button>
+                        <div class="container-fluid pb-5">
+                            <div class="row">
+                                <div class="col-3 category-sidebar ">
+                                    <div class="category-list ">
+
+                                        <div id="accordion-color" data-accordion="collapse" class=""
+                                            data-active-classes="btn-success">
+                                            <h2 id="accordion-color-heading-1" class="btn-light rounded-pill">
+                                                <button onclick="filterTable('All Categories')"
+                                                    class="flex btn-light filter-btn btn-success w-full text-base rounded-pill p-2 justify-center gap-3 items-center justify"
+                                                    data-accordion-target="#accordion-color-body-1" aria-expanded="true"
+                                                    aria-controls="accordion-color-body-1">
+                                                    <span>All Categories</span>
+                                                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0"
+                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 10 6">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
+                                                    </svg>
+                                                </button>
+                                            </h2>
+                                            <div id="accordion-color-body-1" class="hidden "
+                                                aria-labelledby="accordion-color-heading-1">
+
+                                                <table id="getCategory">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+
+
                                     </div>
-                                    <div class="col">
-                                        <button class="filter-btn btn3 border-0 py-2 w-100 rounded fw-bold">Fashion</button>
-                                    </div>
-                                    <div class="col">
-                                        <button
-                                            class="filter-btn btn4 border-0 py-2 w-100 rounded  fw-bold">Service</button>
+                                </div>
+                                <div class="col-9 product-container" style="height: 320px">
+                                    <div class="product-list-container">
+                                        <div class="product-list-item" id="culinary">
+                                            <div class="row">
+                                                @foreach ($umkm as $umkms)
+                                                    <div class="col itemUMKM rounded-lg"
+                                                        data-kategori="{{ $umkms->category->name }}">
+                                                        <a href="{{ route('detail', ['id' => $umkms->id]) }}"
+                                                            class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">
+                                                            <div class="itemcard" style="width: 203px">
+                                                                <img src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
+                                                                    alt="image" style="height: 200px; width:300px; border-radius:20px">
+                                                                <div class="card-body mt-3">
+                                                                    <h5>{{ $umkms->umkm }}</h5>
+                                                                    <p>{{ $umkms->description }}</p>
+                                                                    <a href="{{ route('detail', ['id' => $umkms->id]) }}"
+                                                                        class="btn mainColor text-light fw-bold">Go
+                                                                        somewhere</a>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+
+                                              
+                                                @endforeach
+                                            </div>
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="item-body @if ($umkm->isEmpty()) pl-10 ml-5 @endif ml-3  pb-5 d-flex">
-                            <div class="sub-body1">
-                                <div class="text-center item2">
-                                    <div class="row product-list2 w-100">
-                                        @if ($culinary->isEmpty())
-                                            <p style="width:100vw">Kosong</p>
-                                        @endif
 
-                                        @foreach ($culinary->take(6) as $umkms)
-                                            <div class="col items" style="flex:0">
-                                                <a class="text-decoration-none"
-                                                    href="{{ route('detail', ['id' => $umkms->id]) }}">
+                        <script>
+                            const items = document.querySelectorAll(".itemcard");
+                            items.forEach(row => {
+                                row.style.borderRadius = "20px"
+                                row.style.padding = "5px"
+                                row.addEventListener('mouseover', function() {
+                                    row.style.backgroundColor = "#ddd"
+                                })
+                                row.addEventListener('mouseout', function() {
+                                    row.style.backgroundColor = "white"
+                                })
+                            });
 
-                                                    <div class="card" style="width: 18rem; height:344px">
-                                                        <img class="card-img-top" style="height: 200px"
-                                                            src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                            width="1366px" alt="image">
-                                                        <div class="card-body ">
-                                                            <h5 class="card-title text-decoration-none txtMain">
-                                                                {{ $umkms->umkm }}</h5>
-                                                            <p class="card-text mb-2 txtMain" style="height:48px">
-                                                                {{ $umkms->description }}
-                                                            </p>
-                                                            <a href="" class="btn mainColor text-light fw-bold">Go
-                                                                somewhere</a>
+                            function filterTable(category) {
+                                const rows = document.querySelectorAll(".product-list-item .itemUMKM");
 
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                rows.forEach(row => {
+                                    const rowCategory = row.getAttribute("data-kategori");
+                                    if (category === "All Categories" || rowCategory === category) {
+                                        row.style.display = ""; // Tampilkan baris
+                                    } else {
+                                        row.style.display = "none"; // Sembunyikan baris
+                                    }
+                                });
 
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
+                                // Update tombol aktif
 
-                            </div>
+                                const buttons = document.querySelectorAll('.filter-btn');
+                                buttons.forEach(button => {
+                                    button.classList.remove('btn-success');
+                                    button.classList.add('btn-light');
+                                });
 
+                                // Add 'active' class to the clicked button
+                                const clickedButton = document.querySelector(`button[onclick="filterTable('${category}')"]`);
+                                clickedButton.classList.add('btn-success');
+                                clickedButton.classList.remove('btn-light');
+                            }
 
-                            <div class="sub-body2">
-                                <div class="text-center item3">
-                                    <div class="row product-list3">
-                                        @if ($fashion->isEmpty())
-                                            <p>Kosong</p>
-                                        @endif
-                                        @foreach ($fashion->take(6) as $umkms)
-                                            <div class="col items">
-                                                <a class="text-decoration-none"
-                                                    href="{{ route('detail', ['id' => $umkms->id]) }}">
+                            
+                        </script>
 
-                                                    <div class="card" style="width: 18rem; height:344px">
-                                                        <img class="card-img-top"
-                                                            src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                            width="1366px" height="200px" alt="image">
-                                                        <div class="card-body ">
-                                                            <h5 class="card-title text-decoration-none txtMain">
-                                                                {{ $umkms->umkm }}</h5>
-                                                            <p class="card-text mb-2 txtMain" style="height:48px">
-                                                                {{ $umkms->description }}
-                                                            </p>
-                                                            <a href="" class="btn mainColor text-light fw-bold">Go
-                                                                somewhere</a>
-
-                                                        </div>
-                                                    </div>
-                                                </a>
-
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
+                        <style>
+                            /* CSS styling for the layout */
+                            .container-fluid {
+                                margin-top: 20px;
+                            }
 
 
-                            <div class="sub-body3">
-                                <div class="text-center item4">
-                                    <div class="row product-list4">
 
+                            .product-list-container {
+                                overflow-x: auto;
+                                white-space: nowrap;
+                            }
 
-                                        @if ($service->isEmpty())
-                                            <p class="w-full">Kosong</p>
-                                        @endif
+                            .product-list-item {
+                                display: none;
+                                margin-right: 20px;
+                                flex-shrink: 0;
+                            }
 
-                                        @foreach ($service->take(6) as $umkms)
-                                            <div class="col items">
-                                                <a class="text-decoration-none"
-                                                    href="{{ route('detail', ['id' => $umkms->id]) }}">
+                            .product-list-item:first-child {
+                                display: block;
+                            }
 
-                                                    <div class="card" style="width: 18rem; height:344px">
-                                                        <img class="card-img-top"
-                                                            src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                            width="1366px" height="200px" alt="image">
-                                                        <div class="card-body ">
-                                                            <h5 class="card-title text-decoration-none txtMain">
-                                                                {{ $umkms->umkm }}</h5>
-                                                            <p class="card-text mb-2 txtMain" style="height:48px">
-                                                                {{ $umkms->description }}
-                                                            </p>
-                                                            <a href="" class="btn mainColor text-light fw-bold">Go
-                                                                somewhere</a>
+                            .card {
+                                width: 200px;
+                                margin-right: 10px;
+                                border: 1px solid #ddd;
+                                border-radius: 5px;
+                                overflow: hidden;
+                            }
 
-                                                        </div>
-                                                    </div>
-                                                </a>
+                            .card img {
+                                width: 100%;
+                                height: 200px;
+                                object-fit: cover;
+                            }
 
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
+                            /* Additional styling for responsiveness */
+                            @media (max-width: 768px) {
+                                .container-fluid {
+                                    flex-direction: column;
+                                }
 
+                                .category-sidebar {
+                                    width: 100%;
+                                    margin-bottom: 20px;
+                                }
 
-                        </div>
+                                .product-list-container {
+                                    overflow-x: auto;
+                                }
+                            }
+                        </style>
 
 
 
@@ -186,8 +225,8 @@
                     <div class="container">
                         <div class="row  align-items-center">
                             <div class="col-lg-6 mb-4 mb-lg-0">
-                                <h1 class="display-3 fw-bold">Anyone, anywhere, can Create <span
-                                        class="txtMain">UMKM</span></h1>
+                                <h1 class="display-3 fw-bold">Anyone, anywhere, can Create <span class="txtMain">UMKM</span>
+                                </h1>
                                 <p class="lead my-4 ">Buat UMKM terbaik mu untuk memperluas pasar dan jualanmu lebih
                                     laris</p><a class="btn btn-lg mainColor text-light fw-bold"
                                     href="{{ route('owner', ['id' => Auth::user()->id]) }}">Go to
@@ -432,32 +471,32 @@
 
     <style>
         .btn3.active,
-        .btn2.active,
-        .btn4.active {
+        .btn1.active,
+        .btn2.active {
             background-color: #323A5A;
             color: white
         }
 
         .btn3,
-        .btn4,
-        .btn2 {
+        .btn2,
+        .btn1 {
             background-color: rgb(231, 231, 231);
             color: rgb(0, 0, 0)
         }
     </style>
     <script>
+        const btn1 = document.querySelector(".btn1");
         const btn2 = document.querySelector(".btn2");
         const btn3 = document.querySelector(".btn3");
-        const btn4 = document.querySelector(".btn4");
 
         const product2 = document.querySelector(".product-list2");
         const product3 = document.querySelector(".product-list3");
         const product4 = document.querySelector(".product-list4");
 
-        btn2.addEventListener("click", function() {
-            btn2.classList.toggle("active");
+        btn1.addEventListener("click", function() {
+            btn1.classList.add("active");
+            btn2.classList.remove("active");
             btn3.classList.remove("active");
-            btn4.classList.remove("active");
 
             product2.style.transform = "translateX(0px)";
             product3.style.transform = "translateX(0px)";
@@ -465,11 +504,10 @@
 
         });
 
-        btn3.addEventListener("click", function() {
-            btn3.classList.toggle("active");
-            btn2.classList.remove("active");
-            btn4.classList.remove("active");
-
+        btn2.addEventListener("click", function() {
+            btn2.classList.add("active");
+            btn1.classList.remove("active");
+            btn3.classList.remove("active");
             product2.style.transform = "translateX(-1393px)";
             product2.style.transition = "3s";
             product3.style.transform = "translateX(-1393px)";
@@ -478,11 +516,10 @@
             product4.style.transition = "3s";
         });
 
-        btn4.addEventListener("click", function() {
-            btn4.classList.toggle("active");
+        btn3.addEventListener("click", function() {
+            btn3.classList.add("active");
+            btn1.classList.remove("active");
             btn2.classList.remove("active");
-            btn3.classList.remove("active");
-
             product2.style.transform = "translateX(-2765px)";
             product2.style.transition = "3s";
             product3.style.transform = "translateX(-2765px)";
@@ -498,3 +535,43 @@
 
     @vite('resources/js/home.js')
 @endsection
+
+
+@push('scripts')
+    <script type="module">
+        $(document).ready(function() {
+            $("#getCategory").DataTable({
+                serverSide: false,
+                processing: false,
+                bPaginate: false,
+                info: false,
+                ajax: '{!! route('getCategory') !!}',
+                columns: [
+
+                    {
+                        data: "id",
+                        name: "id",
+                        orderable: true,
+                        searchable: true,
+                        visible: false
+                    },
+
+                    {
+                        data: "categories",
+                        name: "categories",
+                        orderable: true,
+                        searchable: true
+                    },
+
+                ],
+                order: [
+                    [0, "asc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"],
+                ],
+            });
+        });
+    </script>
+@endpush

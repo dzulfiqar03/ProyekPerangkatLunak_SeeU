@@ -82,7 +82,7 @@
                                                 <button type="button"
                                                     class="btn btn-outline-dark btn-lg mt-3 fw-bold w-100 fw-bold"
                                                     data-bs-toggle="modal" data-bs-target="#showUMKM{{ $umkm->id }}">
-                                                    <i class="bi bi-person-lines-fill me-1"></i>Approve
+                                                    <i class="bi bi-person-lines-fill me-1"></i>Show
                                                 </button>
                                             </td>
                                         </tr>
@@ -108,7 +108,7 @@
                                                                             <div class="p-3">
                                                                                 <div class="mb-3 text-center">
                                                                                     <i class="bi-person-circle fs-1"></i>
-                                                                                    <h4>Edit admin</h4>
+                                                                                    <h4>UMKM {{ $umkm->umkm }}</h4>
                                                                                 </div>
                                                                                 <hr>
                                                                                 <div class=" mb-3 w-100">
@@ -204,7 +204,7 @@
                                                                                             {{ $selected == $umkm->category->id ? 'selected' : '' }}>
                                                                                             {{ $umkm->category->id .
                                                                                                 ' -
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ' .
                                                                                                 $umkm->category->name }}
                                                                                         </option>
                                                                                     </select>
@@ -271,14 +271,28 @@
                                                                             <div class="row">
 
 
-
-                                                                                <div class="w-full">
-                                                                                    <button type="button"
-                                                                                        class="btn btn-warning w-100 confirm-action btn-lg mt-3"
-                                                                                        id="confirm-action"><i
-                                                                                            class="bi-check-circle me-2"></i>
-                                                                                        Approve</button>
+                                                                                <div class="col">
+                                                                                    <div class="w-full">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-warning w-100 confirm-action btn-lg mt-3"
+                                                                                            id="confirm-action"><i
+                                                                                                class="bi-check-circle me-2"></i>
+                                                                                            Approve</button>
+                                                                                    </div>
                                                                                 </div>
+
+
+                                                                                <div class="col">
+
+                                                                                    <button type="button"
+                                                                                        class="btn btn-danger w-100 confirm-action2 btn-lg mt-3"
+                                                                                        id="confirm-action2"><i
+                                                                                            class="bi-trash me-2"></i>
+                                                                                        Reject</button>
+
+                                                                                </div>
+
+
 
                                                                             </div>
                                                                         </div>
@@ -347,6 +361,39 @@
                                                                                                     'Terjadi kesalahan saat menambahkan data.',
                                                                                                     'error');
                                                                                             }
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                        });
+                                                                    });
+
+                                                                    $(function() {
+                                                                        $(".modal").on("click", ".confirm-action2", function(e) {
+                                                                            Swal.fire({
+                                                                                    title: 'Apakah Anda yakin ingin menghapus data lama?',
+                                                                                    text: 'Aksi ini tidak dapat dibatalkan.',
+                                                                                    icon: 'warning',
+                                                                                    buttons: true,
+                                                                                    dangerMode: true,
+                                                                                })
+                                                                                .then((willDelete) => {
+                                                                                    if (willDelete) {
+                                                                                        // Ambil ID UMKM dari form
+                                                                                        var formData = $('#myForm').serialize();
+                                                                                        // Lakukan aksi delete
+                                                                                        $.ajax({
+                                                                                            type: 'DELETE',
+                                                                                            url: '{{ route('delete') }}',
+                                                                                            data: formData,
+                                                                                            complete: function(
+                                                                                                response
+                                                                                            ) {
+                                                                                                swal('Berhasil!',
+                                                                                                    'Data berhasil dihapus.',
+                                                                                                    'success'
+                                                                                                );
+                                                                                            },
+
                                                                                         });
                                                                                     }
                                                                                 });

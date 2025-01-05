@@ -185,7 +185,7 @@ class ApproveUMKMController extends Controller
      */
     public function destroy(string $id)
     {
-        $umkm = Umkm::find($id);
+        $umkm = ApproveUMKMModel::find($id);
 
         if ($umkm) {
             if (Storage::disk('public')->exists('files/documentUser/suratIzin/' . $umkm->encrypted_filesname) && Storage::disk('public')->exists('files/documentUser/profileUMKM/' . $umkm->encrypted_photoname)) {
@@ -198,6 +198,9 @@ class ApproveUMKMController extends Controller
         }
         $umkm->delete();
 
-        return redirect()->route('dataUmkm');
+        Alert::success('Rejected Successfully', 'UMKM Data Rejected Successfully.');
+
+
+        return redirect()->route('dashboard');
     }
 }
