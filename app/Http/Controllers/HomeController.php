@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Umkm;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -30,6 +31,19 @@ class HomeController extends Controller
      */
     public function index(Request $request, $id)
     {
+
+        $search = $request->get('search');
+
+        if ($search) {
+            $umkm = Umkm::where('umkm', 'LIKE', "%{$search}%")
+                ->orWhereHas('category', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', "%{$search}%");
+                })
+                ->get();
+        } else {
+            $umkm = Umkm::all();
+        }
+
         $category = Category::all();
         $user = User::all();
         $users = Auth::user();
@@ -40,6 +54,20 @@ class HomeController extends Controller
         $pageTitle = "Home";
         $umkm = Umkm::where('id_user', $users->id)->get();
         $allUmkm = Umkm::all();
+
+        $bulanlist = ['January', 'February', 'March', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        foreach ($umkm as $item) {
+            // Mengambil data tanggal dari database dan mengubahnya menjadi objek Carbon
+            $tanggal = Carbon::parse($item->created_at);
+
+            // Memformat tanggal menjadi nama bulan
+            $bulan = $tanggal->format('F');
+
+            // Menambahkan atribut baru 'bulan' pada objek data
+            $item->bulan = $bulan;
+        }
+
         return view('home', [
             'user' => $user,
             'category' => $category,
@@ -50,6 +78,8 @@ class HomeController extends Controller
             'service' => $service,
             'pageTitle' => $pageTitle,
             'allUmkm' => $allUmkm,
+            'bulanList' => $bulanlist,
+            'search' => $search,
         ]);
     }
 

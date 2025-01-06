@@ -22,17 +22,23 @@
     <div class="text-center h-100vh">
         <div class="d-flex">
 
-
-
             <div class="col rightContent bg-white  ">
-
 
                 <div class="h-100vh">
                     <div class="allBody h-screen">
                         <h1 class="fw-bold my-5">All UMKM</h1>
+                        <div class="mt-5">
+                            <form id="searchForm" class="px-5">
+                                <div class="input-group mb-3">
+                                    <input type="text" name="search" class="form-control" placeholder="Cari UMKM..."
+                                        value="{{ $search ?? '' }}" id="searchInput">
+                                    <button class="btn mainColor text-white" type="submit">Cari</button>
+                                </div>
+                            </form>
+                        </div>
                         <div class="row g-4">
                             @foreach ($umkm as $umkms)
-                                <div class="col">
+                                <div class="col allItem">
                                     <div class="m-auto align-items-center cards">
                                         <a class="text-decoration-none" href="{{ route('detail', ['id' => $umkms->id]) }}">
 
@@ -69,78 +75,40 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <script>
-        var btnTgl1 = document.getElementById('btnTgl1');
-        var btnTgl2 = document.getElementById('btnTgl2');
-        var leftContent = document.getElementById('leftContent');
-        var backToogle = document.getElementById('backToogle');
+        $(document).ready(function() {
+            $('#searchInput').on('keyup', function() {
+                var searchText = $(this).val().toLowerCase();
 
+                $('.allItem').each(function() {
+                    var umkmName = $(this).find('h5').text().toLowerCase();
+                    var umkmDescription = $(this).find('p').text().toLowerCase();
 
-
-        btnTgl1.addEventListener("click", function() {
-            leftContent.style.display = "grid";
-            btnTgl1.style.transform = "scale(0)";
-            backToogle.style.transform = "scale(1)";
-            backToogle.style.position = "static";
-            btnTgl1.style.position = "absolute";
+                    if (umkmName.includes(searchText) || umkmDescription.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
         });
 
-        backToogle.addEventListener("click", function() {
-            leftContent.style.display = "none";
-            btnTgl1.style.transform = "scale(1)";
-            backToogle.style.transform = "scale(0)";
-        });
+        $(document).ready(function() {
+            $('#searchForm').submit(function(event) {
+                event.preventDefault();
+                var searchText = $('#searchInput').val().toLowerCase();
 
+                $('.items').each(function() {
+                    var umkmName = $(this).find('h5').text().toLowerCase();
+                    var umkmDescription = $(this).find('p').text().toLowerCase();
 
-
-        const btn2 = document.querySelector(".btn2");
-        const btn3 = document.querySelector(".btn3");
-        const btn4 = document.querySelector(".btn4");
-
-        const product2 = document.querySelector(".product-list2");
-        const product3 = document.querySelector(".product-list3");
-        const product4 = document.querySelector(".product-list4");
-
-        btn2.addEventListener("click", function() {
-            btn2.classList.toggle("active");
-            btn3.classList.remove("active");
-            btn4.classList.remove("active");
-
-            product2.style.transform = "translateX(0px)";
-            product3.style.transform = "translateX(0px)";
-            product4.style.transform = "translateX(0px)";
-        });
-
-        btn3.addEventListener("click", function() {
-            btn3.classList.toggle("active");
-            btn2.classList.remove("active");
-            btn4.classList.remove("active");
-
-            product2.style.transform = "translateX(-1170px)";
-            product2.style.transition = "3s";
-            product3.style.transform = "translateX(-1170px)";
-            product3.style.transition = "3s";
-            product4.style.transform = "translateX(-1170px)";
-            product4.style.transition = "3s";
-        });
-
-        btn4.addEventListener("click", function() {
-            btn4.classList.toggle("active");
-            btn2.classList.remove("active");
-            btn3.classList.remove("active");
-
-            product2.style.transform = "translateX(-2330px)";
-            product2.style.transition = "3s";
-            product3.style.transform = "translateX(-2330px)";
-            product3.style.transition = "3s";
-            product4.style.transform = "translateX(-2330px)";
-            product4.style.transition = "3s";
+                    if (umkmName.includes(searchText) || umkmDescription.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
         });
     </script>
 

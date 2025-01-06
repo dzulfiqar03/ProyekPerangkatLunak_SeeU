@@ -72,7 +72,6 @@ class RegisterController extends Controller
     {
         $imageName = time() . '.' . $data['imgFile']->extension();
         $data['imgFile']->storeAs('public/images', $imageName);
-        $data['imgFile']->move('resources/images/members', $imageName);
 
 
         return User::create([

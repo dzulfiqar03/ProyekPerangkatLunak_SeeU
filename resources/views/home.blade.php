@@ -84,18 +84,27 @@
 
                                     </div>
                                 </div>
-                                <div class="col-9 product-container" style="height: 320px">
+                                <div class="col-9 product-container" style="height: 400px">
+                                    <form id="searchForm">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="search" class="form-control"
+                                                placeholder="Cari UMKM..." value="{{ $search ?? '' }}" id="searchInput">
+                                            <button class="btn mainColor text-white" type="submit">Cari</button>
+                                        </div>
+                                    </form>
+
                                     <div class="product-list-container">
                                         <div class="product-list-item" id="culinary">
                                             <div class="row">
                                                 @foreach ($umkm as $umkms)
-                                                    <div class="col itemUMKM rounded-lg"
+                                                    <div class="col itemUMKM rounded-lg" id="searchResults"
                                                         data-kategori="{{ $umkms->category->name }}">
                                                         <a href="{{ route('detail', ['id' => $umkms->id]) }}"
                                                             class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">
                                                             <div class="itemcard" style="width: 203px">
                                                                 <img src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                                    alt="image" style="height: 200px; width:300px; border-radius:20px">
+                                                                    alt="image"
+                                                                    style="height: 200px; width:300px; border-radius:20px">
                                                                 <div class="card-body mt-3">
                                                                     <h5>{{ $umkms->umkm }}</h5>
                                                                     <p>{{ $umkms->description }}</p>
@@ -106,8 +115,6 @@
                                                             </div>
                                                         </a>
                                                     </div>
-
-                                              
                                                 @endforeach
                                             </div>
 
@@ -117,7 +124,42 @@
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            $(document).ready(function() {
+                                $('#searchInput').on('keyup', function() {
+                                    var searchText = $(this).val().toLowerCase();
 
+                                    $('.itemUMKM').each(function() {
+                                        var umkmName = $(this).find('h5').text().toLowerCase();
+                                        var umkmDescription = $(this).find('p').text().toLowerCase();
+
+                                        if (umkmName.includes(searchText) || umkmDescription.includes(searchText)) {
+                                            $(this).show();
+                                        } else {
+                                            $(this).hide();
+                                        }
+                                    });
+                                });
+                            });
+
+                            $(document).ready(function() {
+                                $('#searchForm').submit(function(event) {
+                                    event.preventDefault();
+                                    var searchText = $('#searchInput').val().toLowerCase();
+                            
+                                    $('.itemUMKM').each(function() {
+                                        var umkmName = $(this).find('h5').text().toLowerCase();
+                                        var umkmDescription = $(this).find('p').text().toLowerCase();
+                            
+                                        if (umkmName.includes(searchText) || umkmDescription.includes(searchText)) {
+                                            $(this).show();
+                                        } else {
+                                            $(this).hide();
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
 
                         <script>
                             const items = document.querySelectorAll(".itemcard");
@@ -157,8 +199,6 @@
                                 clickedButton.classList.add('btn-success');
                                 clickedButton.classList.remove('btn-light');
                             }
-
-                            
                         </script>
 
                         <style>
@@ -221,7 +261,7 @@
                 </div>
 
 
-                <section class="py-5 bg-light">
+                <section class="bg-light pt-10">
                     <div class="container">
                         <div class="row  align-items-center">
                             <div class="col-lg-6 mb-4 mb-lg-0">
@@ -484,50 +524,9 @@
             color: rgb(0, 0, 0)
         }
     </style>
-    <script>
-        const btn1 = document.querySelector(".btn1");
-        const btn2 = document.querySelector(".btn2");
-        const btn3 = document.querySelector(".btn3");
 
-        const product2 = document.querySelector(".product-list2");
-        const product3 = document.querySelector(".product-list3");
-        const product4 = document.querySelector(".product-list4");
 
-        btn1.addEventListener("click", function() {
-            btn1.classList.add("active");
-            btn2.classList.remove("active");
-            btn3.classList.remove("active");
 
-            product2.style.transform = "translateX(0px)";
-            product3.style.transform = "translateX(0px)";
-            product4.style.transform = "translateX(0px)";
-
-        });
-
-        btn2.addEventListener("click", function() {
-            btn2.classList.add("active");
-            btn1.classList.remove("active");
-            btn3.classList.remove("active");
-            product2.style.transform = "translateX(-1393px)";
-            product2.style.transition = "3s";
-            product3.style.transform = "translateX(-1393px)";
-            product3.style.transition = "3s";
-            product4.style.transform = "translateX(-1393px)";
-            product4.style.transition = "3s";
-        });
-
-        btn3.addEventListener("click", function() {
-            btn3.classList.add("active");
-            btn1.classList.remove("active");
-            btn2.classList.remove("active");
-            product2.style.transform = "translateX(-2765px)";
-            product2.style.transition = "3s";
-            product3.style.transform = "translateX(-2765px)";
-            product3.style.transition = "3s";
-            product4.style.transform = "translateX(-2765px)";
-            product4.style.transition = "3s";
-        });
-    </script>
 
     @include('sweetalert::alert')
 

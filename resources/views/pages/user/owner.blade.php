@@ -1,5 +1,3 @@
-
-
 @extends('layouts.app')
 
 
@@ -31,22 +29,38 @@
                                 <div class="topUmkmList mt-5">
 
                                     <h1 class="fw-bold">UMKM</h1>
-                                    <div class="col-lg-3 col-xl-2">
+                                    <div class="mt-5">
 
-                                        <button type="button" class="btn mainColor text-light fw-bold"
-                                            data-bs-toggle="modal" data-bs-target="#createUMKM">
-                                            <i class="bi bi-plus-circle me-1"></i>Create UMKM
-                                        </button>
-                                        </ul>
+                                        <div class="row px-5">
+                                            <div class="col text-start">
+                                                <button type="button" class="btn mainColor text-light fw-bold"
+                                                    data-bs-toggle="modal" data-bs-target="#createUMKM">
+                                                    <i class="bi bi-plus-circle me-1"></i>Create UMKM
+                                                </button>
+
+                                            </div>
+
+                                            <div class="col">
+                                                <form id="searchForm">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" name="search" class="form-control"
+                                                            placeholder="Cari UMKM..." value="{{ $search ?? '' }}"
+                                                            id="searchInput">
+                                                        <button class="btn mainColor text-white"
+                                                            type="submit">Cari</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
 
                             </div>
 
 
-                            <div class="item-body mt-5  @if ($umkm->isEmpty())
-                                           pl-10 ml-5
-                                        @endif pb-5 d-flex">
+                            <div class="item-body mt-5  @if ($umkm->isEmpty()) pl-10 ml-5 @endif pb-5 d-flex">
                                 <div class="sub-body1">
                                     <div class="text-center item2">
                                         <div class="row product-list2 w-100">
@@ -55,30 +69,29 @@
                                                 <p>Kosong</p>
                                             @endif
                                             @foreach ($umkm as $umkms)
-                                                    <div class="col items mb-5 style="flex:0"">
-                                                        <a class="text-decoration-none"
-                                                            href="{{ route('detailOwner', ['id' => $umkms->id]) }}">
+                                                <div class="col items mb-5 style="flex:0"">
+                                                    <a class="text-decoration-none"
+                                                        href="{{ route('detailOwner', ['id' => $umkms->id]) }}">
 
-                                                            <div class="card d-flex" style="width: 18rem; height:344px">
-                                                                <img class="card-img-top" style="height: 200px"
-                                                                    src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                                    width="1366px" height="200px" alt="image">
-                                                                <div class="card-body ">
-                                                                    <h5 class="card-title text-decoration-none txtMain">
-                                                                        {{ $umkms->umkm }}</h5>
-                                                                    <p class="card-text mb-2 txtMain"
-                                                                        style="height:48px">
-                                                                        {{ $umkms->description }}
-                                                                    </p>
-                                                                    <a href=""
-                                                                        class="btn mainColor text-light fw-bold">Go
-                                                                        somewhere</a>
+                                                        <div class="card d-flex" style="width: 18rem; height:344px">
+                                                            <img class="card-img-top" style="height: 200px"
+                                                                src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
+                                                                width="1366px" height="200px" alt="image">
+                                                            <div class="card-body ">
+                                                                <h5 class="card-title text-decoration-none txtMain">
+                                                                    {{ $umkms->umkm }}</h5>
+                                                                <p class="card-text mb-2 txtMain" style="height:48px">
+                                                                    {{ $umkms->description }}
+                                                                </p>
+                                                                <a href=""
+                                                                    class="btn mainColor text-light fw-bold">Go
+                                                                    somewhere</a>
 
-                                                                </div>
                                                             </div>
-                                                        </a>
+                                                        </div>
+                                                    </a>
 
-                                                    </div>
+                                                </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -99,11 +112,45 @@
             </div>
         </div>
 
+        <script>
+            $(document).ready(function() {
+                $('#searchInput').on('keyup', function() {
+                    var searchText = $(this).val().toLowerCase();
 
+                    $('.items').each(function() {
+                        var umkmName = $(this).find('h5').text().toLowerCase();
+                        var umkmDescription = $(this).find('p').text().toLowerCase();
+
+                        if (umkmName.includes(searchText) || umkmDescription.includes(searchText)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function() {
+                $('#searchForm').submit(function(event) {
+                    event.preventDefault();
+                    var searchText = $('#searchInput').val().toLowerCase();
+
+                    $('.items').each(function() {
+                        var umkmName = $(this).find('h5').text().toLowerCase();
+                        var umkmDescription = $(this).find('p').text().toLowerCase();
+
+                        if (umkmName.includes(searchText) || umkmDescription.includes(searchText)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                });
+            });
+        </script>
 
         <div class="d-grid gap-2 text-start">
-            <div class="modal fade" id="createUMKM" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="createUMKM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="{{ route('approveumkm.store') }}" method="POST" enctype="multipart/form-data">
@@ -116,8 +163,7 @@
                                 <div class="form-group">
                                     <label for="umkm" class="form-label">UMKM</label>
                                     <input class="form-control @error('umkm') is-invalid @enderror" type="text"
-                                        name="umkm" id="umkm" value="{{ old('umkm') }}"
-                                        placeholder="Enter UMKM">
+                                        name="umkm" id="umkm" value="{{ old('umkm') }}" placeholder="Enter UMKM">
                                     @error('umkm')
                                         <div class="text-danger">
                                             <small>{{ $message }}</small>
@@ -126,9 +172,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description" class="form-label">Description</label>
-                                    <input class="form-control @error('description') is-invalid @enderror"
-                                        type="text" name="description" id="description"
-                                        value="{{ old('description') }}" placeholder="Enter Description">
+                                    <input class="form-control @error('description') is-invalid @enderror" type="text"
+                                        name="description" id="description" value="{{ old('description') }}"
+                                        placeholder="Enter Description">
                                     @error('description')
                                         <div class="text-danger">
                                             <small>{{ $message }}</small>
@@ -210,8 +256,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </form>
@@ -299,4 +344,4 @@
     @vite('resources/js/home.js')
 
 
-    @endsection
+@endsection
