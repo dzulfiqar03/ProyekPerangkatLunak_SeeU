@@ -525,7 +525,50 @@
         }
     </style>
 
+<script>
+    const btn1 = document.querySelector(".btn1");
+    const btn2 = document.querySelector(".btn2");
+    const btn3 = document.querySelector(".btn3");
 
+    const product2 = document.querySelector(".product-list2");
+    const product3 = document.querySelector(".product-list3");
+    const product4 = document.querySelector(".product-list4");
+
+    btn1.addEventListener("click", function() {
+        btn1.classList.add("active");
+        btn2.classList.remove("active");
+        btn3.classList.remove("active");
+
+        product2.style.transform = "translateX(0px)";
+        product3.style.transform = "translateX(0px)";
+        product4.style.transform = "translateX(0px)";
+
+    });
+
+    btn2.addEventListener("click", function() {
+        btn2.classList.add("active");
+        btn1.classList.remove("active");
+        btn3.classList.remove("active");
+        product2.style.transform = "translateX(-1393px)";
+        product2.style.transition = "3s";
+        product3.style.transform = "translateX(-1393px)";
+        product3.style.transition = "3s";
+        product4.style.transform = "translateX(-1393px)";
+        product4.style.transition = "3s";
+    });
+
+    btn3.addEventListener("click", function() {
+        btn3.classList.add("active");
+        btn1.classList.remove("active");
+        btn2.classList.remove("active");
+        product2.style.transform = "translateX(-2765px)";
+        product2.style.transition = "3s";
+        product3.style.transform = "translateX(-2765px)";
+        product3.style.transition = "3s";
+        product4.style.transform = "translateX(-2765px)";
+        product4.style.transition = "3s";
+    });
+</script>
 
 
     @include('sweetalert::alert')

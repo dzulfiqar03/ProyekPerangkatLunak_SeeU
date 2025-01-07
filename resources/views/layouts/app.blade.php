@@ -20,29 +20,39 @@
     @yield('linkHead')
 </head>
 
-<body class="overflow-visible mainColor">
-    <div id="app m-0">
+<body @if ($currentRouteName !== 'guest' && $currentRouteName !== 'gstDetail') class=" overflow-visible mainColor" @endif>
 
-        <div class="wrapper">
+    @if ($currentRouteName !== 'guest' && $currentRouteName !== 'gstDetail')
+        <div id="app m-0">
 
-            {{-- Header --}}
-            @include('components.nav')
+            <div class="wrapper">
 
-            {{-- sidebar --}}
-            @include('components.sidebar')
+                {{-- Header --}}
 
+                @if ($currentRouteName !== 'guest' && $currentRouteName !== 'gstDetail')
+                    @include('components.nav')
+
+                    {{-- sidebar --}}
+                    @include('components.sidebar')
+                @endif
+
+            </div>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper @if (Request::is('admin')) h-screen @endif ">
+
+                <!-- Main content -->
+                @yield('content')
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
         </div>
+    @else
+        <!-- Main content -->
+        @yield('content')
+        <!-- /.content -->
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper @if (Request::is('admin')) h-screen @endif ">
-
-            <!-- Main content -->
-            @yield('content')
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-    </div>
-
+    @endif
 
     @include('components.link.body')
     @yield('linkBody')

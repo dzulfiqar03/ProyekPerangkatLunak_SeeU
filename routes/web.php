@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ApproveUMKMController;
 use App\Http\Controllers\Admin\DataUmkmController;
 use App\Http\Controllers\Admin\DataUserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogOutController;
@@ -36,9 +37,8 @@ Route::get('/', function () {
 
 Route::redirect('/', '/guest');
 
-Route::get('/guest', function () {
-    return view('pages.guest');
-})->name('guest');
+
+Route::get('/guest', [GuestController::class, 'index'])->name('guest');
 
 Route::middleware('auth')->group(function () {
 
@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::get('download-file/{umkmId}', [AdminController::class, 'downloadFile'])->name('admin.downloadFile');
 });
 
+Route::get('/umkmGstDetail/{id}', [UmkmDetailController::class, 'index'])->name('gstDetail');
+Route::get('getCategory2', [GuestController::class, 'getCategory2'])->name('getCategory2');
 
 Auth::routes();
 

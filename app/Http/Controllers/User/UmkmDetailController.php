@@ -11,6 +11,7 @@ class UmkmDetailController extends Controller
     public function index($id)
     {
         $umkm = UMKM::all();
+        $umkm2 = UMKM::all();
         $idUmkm = $id;
 
         if (!$umkm) {
@@ -19,12 +20,15 @@ class UmkmDetailController extends Controller
 
         $category = Category::all();
         $pageTitle = "Detail UMKM";
+        $otherUmkm = Umkm::where('id', '!=', $id)->paginate(3);;
 
         return view('pages.user.umkm_detail', [
             'umkm' => $umkm,
             'idUmkm' => $idUmkm,
             'pageTitle' => $pageTitle,
-            'category' => $category
+            'category' => $category,
+            'umkm2' => $umkm2,
+            'otherUmkm' => $otherUmkm
 
         ]);
     }
