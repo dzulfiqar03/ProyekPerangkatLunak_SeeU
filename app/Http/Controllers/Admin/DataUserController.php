@@ -13,6 +13,6 @@ class DataUserController extends Controller
         $user = User::all();
         $pageTitle = "Data User";
 
-        return view('pages.admin.data_user', compact('umkm', 'pageTitle'));
+        return view('pages.admin.data_user', compact('user', 'pageTitle'));
     }
 }

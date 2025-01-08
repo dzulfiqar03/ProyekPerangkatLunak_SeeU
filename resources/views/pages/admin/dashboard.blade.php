@@ -581,44 +581,10 @@
 
     </div>
 
-    <style>
-        .rightContent.active {
-            padding-left: 0px;
-        }
 
-        .rightContent.active #apexcharts9prxoflk {
-            width: 500px;
-        }
-    </style>
-    <script>
-        var btnTgl1 = document.getElementById('btnTgl1');
-        var btnTgl2 = document.getElementById('btnTgl2');
-        var leftContent = document.getElementById('leftContent');
-        var backToogle = document.getElementById('backToogle');
-        var rightContent = document.querySelector('.rightContent');
-
-
-
-        btnTgl1.addEventListener("click", function() {
-            leftContent.style.display = "grid";
-            btnTgl1.style.transform = "scale(0)";
-            backToogle.style.transform = "scale(1)";
-            backToogle.style.position = "static";
-            btnTgl1.style.position = "absolute";
-            rightContent.classList.add('active');
-        });
-
-        backToogle.addEventListener("click", function() {
-            leftContent.style.display = "none";
-            btnTgl1.style.transform = "scale(1)";
-            backToogle.style.transform = "scale(0)";
-        });
-    </script>
 
 
     @stack('scripts')
-
-
 
 
     @vite('resources/js/app.js')
