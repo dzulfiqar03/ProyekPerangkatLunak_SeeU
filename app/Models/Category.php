@@ -19,4 +19,9 @@ class Category extends Model
     {
         return $this->hasMany(ApproveUMKMModel::class);
     }
+
+    public function allUmkm()
+    {
+        return $this->hasMany(AllUmkm::class, 'category_id');
+    }
 }

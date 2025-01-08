@@ -96,9 +96,9 @@
                                     <div class="product-list-container">
                                         <div class="product-list-item" id="culinary">
                                             <div class="row">
-                                                @foreach ($umkm as $umkms)
+                                                @foreach ($detailUmkm as $umkms)
                                                     <div class="col itemUMKM rounded-lg" id="searchResults"
-                                                        data-kategori="{{ $umkms->category->name }}">
+                                                        data-kategori="{{ $umkms->allUmkm->category->name}}">
                                                         <a href="{{ route('detail', ['id' => $umkms->id]) }}"
                                                             class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">
                                                             <div class="itemcard" style="width: 203px">
@@ -106,8 +106,8 @@
                                                                     alt="image"
                                                                     style="height: 200px; width:300px; border-radius:20px">
                                                                 <div class="card-body mt-3">
-                                                                    <h5>{{ $umkms->umkm }}</h5>
-                                                                    <p>{{ $umkms->description }}</p>
+                                                                    <h5>{{ $umkms->allUmkm->umkm }}</h5>
+                                                                    <p>{{ Str::limit($umkms->description, 20) }}</p>
                                                                     <a href="{{ route('detail', ['id' => $umkms->id]) }}"
                                                                         class="btn mainColor text-light fw-bold">Go
                                                                         somewhere</a>

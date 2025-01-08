@@ -17,40 +17,170 @@
 
                     <div class="categoryBody mb-5 mt-5">
                         <div class="container text-center mb-5">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="content  bg-dark text-white rounded">
-                                        <h3 class=" py-2 w-100 rounded fw-bold">Culinary</h3>
-                                        <h5 class="fw-bold">{{ $culinary->count() }}</h5>
+                            <div class="row justify-content-center g-4">
+                                <!-- Culinary -->
+                                @foreach($categories as $category)
+                                <div class="col-md-4">
+                                    <div class="content shadow bg-gradient text-white rounded text-center py-4">
+                                        <h3 class="py-2 w-100 rounded fw-bold bg-secondary">{{ $category->name }}</h3>
+                                        <h5 class="fw-bold counter display-4" data-total="{{ $category->allumkm_count }}">0</h5>
                                     </div>
-
                                 </div>
-                                <div class="col">
-                                    <div class="content  bg-dark text-white rounded">
-                                        <h3 class="py-2 w-100 rounded fw-bold">Fashion</h3>
-                                        <h5 class="fw-bold">{{ $fashion->count() }}</h5>
+                                @endforeach
+                            </div>
+                            
+                            <style>
+                                /* Grid styling */
 
-                                    </div>
+                            
+                                /* Content card styling */
+                                .content {
+                                    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient background */
+                                    border-radius: 12px; /* Rounded corners */
+                                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+                                    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+                                }
+                            
+                                .content:hover {
+                                    transform: translateY(-10px); /* Lift card on hover */
+                                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+                                }
+                            
+                                /* Title styling */
+                                .content h3 {
+                                    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+                                    color: #3984ce; /* White text */
+                                    padding: 10px;
+                                    border-radius: 8px;
+                                    margin-bottom: 20px;
+                                    font-size: 1.5rem; /* Adjust size for readability */
+                                }
+                            
+                                /* Counter styling */
+                                .counter {
+                                    font-size: 2.5rem; /* Larger number */
+                                    font-weight: bold;
+                                    color: #3984ce; /* Light color for contrast */
+                                }
+                            
+                                /* Responsive adjustments */
+                                @media (max-width: 768px) {
+                                    .content h3 {
+                                        font-size: 1.25rem; /* Adjust title size for smaller screens */
+                                    }
+                                    .counter {
+                                        font-size: 2rem; /* Adjust counter size */
+                                    }
+                                }
+                            </style>
+                            
+                            <script>
+                                // Fungsi untuk animasi angka bertambah
+                                function animateCounter(element, duration) {
+                                    const target = parseInt(element.getAttribute('data-total'), 10); // Ambil total dari atribut data
+                                    let current = 0; // Awal angka
+                                    const increment = target / (duration / 10); // Hitungan per interval (10ms)
+                            
+                                    const interval = setInterval(() => {
+                                        current += increment; // Tambahkan angka secara perlahan
+                                        if (current >= target) {
+                                            current = target; // Jika sudah mencapai target, hentikan
+                                            clearInterval(interval);
+                                        }
+                                        element.textContent = Math.floor(current); // Tampilkan angka
+                                    }, 10); // Jalankan setiap 10ms
+                                }
+                            
+                                // Ambil semua elemen dengan class "counter"
+                                const counters = document.querySelectorAll('.counter');
+                            
+                                // Terapkan animasi pada setiap elemen
+                                counters.forEach(counter => {
+                                    animateCounter(counter, 2000); // Animasi selama 2 detik
+                                });
+                            </script>
+                            
+                        </div>
 
+                        <div class="row">
+                            <div class="col" style="width: 100px">
+                                <div class="p-6 m-20 bg-white rounded shadow" style="width: 600px">
+                                    {!! $chart->container() !!}
                                 </div>
-                                <div class="col">
-                                    <div class="content  bg-dark text-white rounded">
-                                        <h3 class=" py-2 w-100 rounded  fw-bold">Service</h3>
-                                        <h5 class="fw-bold">{{ $service->count() }}</h5>
 
-                                    </div>
+                                <script src="{{ $chart->cdn() }}"></script>
 
+                                {{ $chart->script() }}
+                            </div>
+
+                            <div class="col">
+                                <div class="col text-center">
+                                    <!-- Menampilkan penghitung total pengguna -->
+                                    <div id="counter" class="counter-display" data-total-users="{{ $user->count() }}">0</div>
+                                    <h1 class="counter-title">Total Pengguna</h1>
                                 </div>
+                                
+                                <style>
+                                    /* CSS untuk tampilan penghitung */
+                                    .counter-display {
+                                        font-size: 64px; /* Ukuran teks besar */
+                                        font-weight: bold;
+                                        color: #3498db; /* Warna biru */
+                                        margin-bottom: 10px; /* Jarak dengan judul */
+                                        transition: color 0.3s ease; /* Efek transisi warna */
+                                    }
+                                
+                                    .counter-display:hover {
+                                        color: #2ecc71; /* Ubah warna saat dihover */
+                                    }
+                                
+                                    .counter-title {
+                                        font-size: 24px; /* Ukuran teks judul */
+                                        font-weight: 500;
+                                        color: #555; /* Warna teks judul */
+                                        margin: 0; /* Hapus margin default */
+                                    }
+                                
+                                  
+                                </style>
+                                
+                                <script>
+                                    // Fungsi untuk animasi angka bertambah
+                                    function animateCounter(target, duration) {
+                                        const counterElement = document.getElementById('counter');
+                                        let current = 0; // Awal angka
+                                        const increment = target / (duration / 10); // Hitungan per interval (10ms)
+                                
+                                        const interval = setInterval(() => {
+                                            current += increment; // Tambahkan angka secara perlahan
+                                            if (current >= target) {
+                                                current = target; // Jika sudah mencapai target, hentikan
+                                                clearInterval(interval);
+                                            }
+                                            counterElement.textContent = Math.floor(current); // Tampilkan angka
+                                        }, 10); // Jalankan setiap 10ms
+                                    }
+                                
+                                    // Ambil total pengguna dari atribut data
+                                    const totalUsers = parseInt(document.getElementById('counter').getAttribute('data-total-users'), 10);
+                                    animateCounter(totalUsers, 2000); // Animasi selama 2 detik
+                                </script>
+                                
+                                <div class="p-6 m-20 bg-white rounded shadow" style="transform: scale(0.8)">
+                                    {!! $chart2->container() !!}
+                                </div>
+
+                                <script src="{{ $chart2->cdn() }}"></script>
+
+                                {{ $chart2->script() }}
+
                             </div>
                         </div>
 
-                        <div class="p-6 m-20 bg-white rounded shadow">
-                            {!! $chart->container() !!}
-                        </div>
 
-                        <script src="{{ $chart->cdn() }}"></script>
 
-                        {{ $chart->script() }}
+
+
 
 
 
@@ -156,6 +286,32 @@
 
                                                                                 </div>
                                                                                 <div class=" mb-3 w-100">
+                                                                                    <label for="city"
+                                                                                        class="form-label">city</label>
+                                                                                    <h5>{{ $umkm->city->name }}</h5>
+                                                                                    <select hidden name="city"
+                                                                                        id="city" class="form-select">
+                                                                                        @php
+                                                                                            $selected = '';
+                                                                                            if ($errors->any()) {
+                                                                                                $selected = old('city');
+                                                                                            } else {
+                                                                                                $selected =
+                                                                                                    $umkm->city_id;
+                                                                                            }
+                                                                                        @endphp
+                                                                                        <option
+                                                                                            value="{{ $umkm->city->id }}"
+                                                                                            {{ $selected == $umkm->city->id ? 'selected' : '' }}>
+                                                                                            {{ $umkm->city->id .
+                                                                                                ' -
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ' .
+                                                                                                $umkm->city->name }}
+                                                                                        </option>
+                                                                                    </select>
+
+                                                                                </div>
+                                                                                <div class=" mb-3 w-100">
                                                                                     <label for="address"
                                                                                         class="form-label">Address</label>
 
@@ -204,7 +360,7 @@
                                                                                             {{ $selected == $umkm->category->id ? 'selected' : '' }}>
                                                                                             {{ $umkm->category->id .
                                                                                                 ' -
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ' .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ' .
                                                                                                 $umkm->category->name }}
                                                                                         </option>
                                                                                     </select>

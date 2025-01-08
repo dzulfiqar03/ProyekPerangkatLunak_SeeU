@@ -12,6 +12,7 @@ use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\User\AboutUsController;
 use App\Http\Controllers\User\AllUmkmController;
+use App\Http\Controllers\User\ImageUmkmController;
 use App\Http\Controllers\User\OwnerController;
 use App\Http\Controllers\User\UMKMController;
 use App\Http\Controllers\User\UmkmDetailController;
@@ -52,10 +53,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/umkmDetail/{id}', [UmkmDetailController::class, 'index'])->name('detail');
     Route::get('/umkmOwnerDetail/{id}', [UmkmDetailController::class, 'index'])->name('detailOwner');
+    Route::get('/umkmAllDetail/{id}', [UmkmDetailController::class, 'index'])->name('detailAll');
+    Route::get('/umkmAdminDetail/{id}', [UmkmDetailController::class, 'index'])->name('detailAdmin');
 
     Route::get('/aboutUs', [AboutUsController::class, 'index'])->name('about');
 
     Route::get('getUmkm', [HomeController::class, 'getData'])->name('getUmkm');
+    Route::get('getMyUmkm', [HomeController::class, 'getMyData'])->name('getMyUmkm');
     Route::get('getUser', [HomeController::class, 'getUser'])->name('getUser');
     Route::get('getCategory', [HomeController::class, 'getCategory'])->name('getCategory');
 
@@ -80,4 +84,6 @@ Route::post('/resetPassword', [ForgotPasswordController::class, 'resetPasswordPo
 Route::resource('umkm', UMKMController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('approveumkm', ApproveUMKMController::class);
+Route::resource('imageUmkm', ImageUmkmController::class);
+
 Route::delete('/delete', [AdminController::class, 'destroy'])->name('delete');

@@ -16,14 +16,21 @@ class UmkmChart
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
-         $category = Category::withCount('umkm')->get();
-         $categoryLabels = $category->pluck('name')->toArray();
-         $umkmCount = $category->pluck('umkm_count')->toArray();
-         return $this->chart->barChart()
-             ->setTitle('Kategori')
-             ->setSubtitle('Kategori dengan Jumlah UMKM Terbanyak')
-             ->addData('Jumlah Umkm', $umkmCount)
-             ->setXAxis($categoryLabels);
-    }
+        // Fetch the categories and count the number of UMKMs in each category
+        $categories = Category::withCount('allumkm')->get();
 
+        // Prepare data for the bar chart
+        $labels = $categories->pluck('name');  // Category names
+        $data = $categories->pluck('allumkm_count');  // Count of UMKMs in each category
+
+        // Create the bar chart
+        return $this->chart->barChart()
+            ->setTitle('Kategori')
+            ->setSubtitle('Kategori dengan Jumlah UMKM Terbanyak')
+            ->addData('Jumlah', $data->toArray())  // Data for the chart
+            ->setLabels($labels->toArray())  // Labels for the chart
+            ->setHeight(400)
+            ->setColors(['#FF5733']);  // Optional: You can customize the color
+
+    }
 }

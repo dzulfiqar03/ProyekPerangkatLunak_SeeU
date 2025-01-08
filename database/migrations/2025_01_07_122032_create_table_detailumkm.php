@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approve_umkm', function (Blueprint $table) {
+        Schema::create('detailUmkm', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('id_user')->references('id')->on('users');
-            $table->string('umkm');
+            $table->foreignId('umkm_id')->constrained('allumkm');
             $table->string('description')->nullable();
             $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('telephone_number')->nullable();
-            $table->foreignId('category_id')->constrained('category');
             $table->string('original_photoname')->nullable();
             $table->string('encrypted_photoname')->nullable();
             $table->string('original_filesname')->nullable();
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('approve_umkm');
+        Schema::dropIfExists('detailUmkm');
     }
 };

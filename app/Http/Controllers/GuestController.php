@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllUmkm;
 use App\Models\Category;
+use App\Models\DetailUmkm;
 use App\Models\Umkm;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,21 +19,21 @@ class GuestController extends Controller
         $search = $request->get('search');
 
         if ($search) {
-            $umkm = Umkm::where('umkm', 'LIKE', "%{$search}%")
+            $umkm = DetailUmkm::where('umkm', 'LIKE', "%{$search}%")
                 ->orWhereHas('category', function ($query) use ($search) {
                     $query->where('name', 'LIKE', "%{$search}%");
                 })
                 ->get();
         } else {
-            $umkm = Umkm::all();
+            $umkm = DetailUmkm::all();
         }
 
         $category = Category::all();
         $user = User::all();
         $users = Auth::user();
-        $umkmCount = Umkm::all()->count();
+        $umkmCount = DetailUmkm::all()->count();
         $pageTitle = "Home";
-        $allUmkm = Umkm::all();
+        $allUmkm = DetailUmkm::all();
 
         $bulanlist = ['January', 'February', 'March', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 

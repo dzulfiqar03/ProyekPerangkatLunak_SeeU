@@ -39,10 +39,7 @@
                                     <th></th>
                                     <th>No.</th>
                                     <th>UMKM</th>
-                                    <th>Description</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Telephone Number</th>
+                                    <th>City</th>
                                     <th>Kategori</th>
                                     <th>Action</th>
                                 </tr>
@@ -86,7 +83,7 @@
                                                     class="form-control
                                 @error('umkm') is-invalid @enderror"
                                                     type="text" name="umkm" id="umkm"
-                                                    value="{{ $errors->any() ? old('umkm') : $dataUmkm->umkm }}"
+                                                    value="{{ $errors->any() ? old('umkm') : $dataUmkm->allUmkm->umkm }}"
                                                     placeholder="Enter UMKM">
                                                 @error('umkm')
                                                     <div class="text-danger"><small>{{ $message }}</small></div>
@@ -144,15 +141,15 @@
                                                         if ($errors->any()) {
                                                             $selected = old('category');
                                                         } else {
-                                                            $selected = $dataUmkm->category_id;
+                                                            $selected = $dataUmkm->allUmkm->category_id;
                                                         }
                                                     @endphp
-                                                    <option value="{{ $dataUmkm->category->id }}"
-                                                        {{ $selected == $dataUmkm->category->id ? 'selected' : '' }}>
-                                                        {{ $dataUmkm->category->id .
+                                                    <option value="{{ $dataUmkm->allUmkm->category->id }}"
+                                                        {{ $selected == $dataUmkm->allUmkm->category->id ? 'selected' : '' }}>
+                                                        {{ $dataUmkm->allUmkm->category->id .
                                                             ' -
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ' .
-                                                            $dataUmkm->category->name }}
+                                                            $dataUmkm->allUmkm->category->name }}
                                                     </option>
                                                 </select>
                                                 @error('category')
@@ -249,7 +246,7 @@
             $("#umkmTable").DataTable({
                 serverSide: true,
                 processing: true,
-                ajax: '{!! route('getUmkm') !!}',
+                ajax:  '{!! route('getUmkm') !!}',
                 columns: [{
                         data: "id",
                         name: "id",
@@ -266,31 +263,15 @@
                         name: "umkm"
                     },
                     {
-                        data: "description",
-                        name: "description"
-                    },
-                    {
-                        data: "address",
-                        name: "address"
-                    },
-                    {
-                        data: "email",
-                        name: "email"
-                    },
-                    {
-                        data: "telephone_number",
-                        name: "telephone_number"
-                    },
-                    {
                         data: "category.name",
                         name: "category.name"
                     },
                     {
-                        data: "actions",
-                        name: "actions",
-                        orderable: false,
-                        searchable: false
+                        data: "city.name",
+                        name: "city.name"
                     },
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }, // Tombol aksi
+      
                 ],
                 order: [
                     [0, "desc"]

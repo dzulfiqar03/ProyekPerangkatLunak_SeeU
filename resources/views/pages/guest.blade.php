@@ -109,7 +109,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-9 product-container" style="height: 400px">
+                                <div class="col-9 product-container" style="height: 750px">
                                     <form id="searchForm">
                                         <div class="input-group mb-3">
                                             <input type="text" name="search" class="form-control"
@@ -123,7 +123,7 @@
                                             <div class="row">
                                                 @foreach ($umkm as $umkms)
                                                     <div class="col itemUMKM rounded-lg" id="searchResults"
-                                                        data-kategori="{{ $umkms->category->name }}">
+                                                    data-kategori="{{ $umkms->allUmkm->category->name}}">
                                                         <a href="{{ route('gstDetail', ['id' => $umkms->id]) }}"
                                                             class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">
                                                             <div class="itemcard" style="width: 203px">
@@ -131,8 +131,8 @@
                                                                     alt="image"
                                                                     style="height: 200px; width:300px; border-radius:20px">
                                                                 <div class="card-body mt-3">
-                                                                    <h5>{{ $umkms->umkm }}</h5>
-                                                                    <p>{{ $umkms->description }}</p>
+                                                                    <h5>{{ $umkms->allUmkm->umkm }}</h5>
+                                                                    <p>{{ Str::limit($umkms->description, 20) }}</p>
                                                                     <a href="{{ route('detail', ['id' => $umkms->id]) }}"
                                                                         class="btn mainColor text-light fw-bold">Go
                                                                         somewhere</a>

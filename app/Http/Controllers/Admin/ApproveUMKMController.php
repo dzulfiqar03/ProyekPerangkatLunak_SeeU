@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AllUmkm;
 use App\Models\ApproveUMKMModel;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -23,14 +24,14 @@ class ApproveUMKMController extends Controller
         Alert::success('Added Successfully', 'UMKM Data Added Successfully.');
         $category = Category::all();
         $user = User::all();
-        $umkm = Umkm::all();
-        $umkmCount = Umkm::all()->count();
-        $culinary = Umkm::orderBy('id')->take(3)->get();
-        $fashion = UMKM::where('category_id', 2)->get();
-        $service = UMKM::where('category_id', 3)->get();
+        $umkm = AllUmkm::all();
+        $umkmCount = AllUmkm::all()->count();
+        $culinary = AllUmkm::orderBy('id')->take(3)->get();
+        $fashion = AllUmkm::where('category_id', 2)->get();
+        $service = AllUmkm::where('category_id', 3)->get();
         $pageTitle = "UMKM";
 
-        return redirect()->route('home', ['id' => Auth::user()->id])->with([
+        return redirect()->route('owner', ['id' => Auth::user()->id])->with([
             'user' => $user,
             'categorys' => $category,
             'umkm' => $umkm,
@@ -97,6 +98,7 @@ class ApproveUMKMController extends Controller
         $umkm->umkm = $request->umkm;
         $umkm->description = $request->description;
         $umkm->email = $request->email;
+        $umkm->city_id = $request->cities;
         $umkm->address = $request->address;
         $umkm->id_user = $request->id;
         $umkm->telephone_number = $request->telNum;
@@ -114,7 +116,7 @@ class ApproveUMKMController extends Controller
 
 
 
-        return redirect()->route('umkm.index');
+        return redirect()->route('approveumkm.index');
     }
 
     /**

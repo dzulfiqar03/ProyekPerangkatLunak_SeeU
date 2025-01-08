@@ -71,17 +71,17 @@
                                             @foreach ($umkm as $umkms)
                                                 <div class="col items mb-5 style="flex:0"">
                                                     <a class="text-decoration-none"
-                                                        href="{{ route('detailOwner', ['id' => $umkms->id]) }}">
+                                                        href="{{ route('detailOwner', ['id' => $umkms->detailUmkm->id]) }}">
 
                                                         <div class="card d-flex" style="width: 18rem; height:344px">
                                                             <img class="card-img-top" style="height: 200px"
-                                                                src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
+                                                                src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->detailUmkm->original_photoname) }}"
                                                                 width="1366px" height="200px" alt="image">
                                                             <div class="card-body ">
                                                                 <h5 class="card-title text-decoration-none txtMain">
                                                                     {{ $umkms->umkm }}</h5>
                                                                 <p class="card-text mb-2 txtMain" style="height:48px">
-                                                                    {{ $umkms->description }}
+                                                                    {{ $umkms->detailUmkm->description }}
                                                                 </p>
                                                                 <a href=""
                                                                     class="btn mainColor text-light fw-bold">Go
@@ -192,6 +192,23 @@
                                         </div>
                                     @enderror
                                 </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="cities" class="form-label">Cities</label>
+                                    <select name="cities" id="cities" class="form-select">
+                                        @foreach ($cities as $cities)
+                                            <option value="{{ $cities->id }}"
+                                                {{ old('cities') == $cities->id ? 'selected' : '' }}>
+                                                {{ $cities->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('category')
+                                        <div class="text-danger">
+                                            <small>{{ $message }}</small>
+                                        </div>
+                                    @enderror
+                                </div>
+
                                 <div class="form-group">
                                     <label for="address" class="form-label">Address</label>
                                     <input class="form-control @error('address') is-invalid @enderror" type="text"

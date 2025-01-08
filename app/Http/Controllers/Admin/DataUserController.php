@@ -10,10 +10,9 @@ class DataUserController extends Controller
 {
     public function index()
     {
-        $umkm = Umkm::all();
         $user = User::all();
         $pageTitle = "Data User";
 
-        return view('pages.admin.data_user', compact('umkm', 'user', 'pageTitle'));
+        return view('pages.admin.data_user', compact('umkm', 'pageTitle'));
     }
 }

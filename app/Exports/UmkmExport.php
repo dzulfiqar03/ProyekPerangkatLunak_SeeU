@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\AllUmkm;
 use App\Models\Umkm;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -21,7 +22,7 @@ class UmkmExport implements FromView, WithStyles, ShouldAutoSize
     public function view(): View
     {
         return view('export.export_excel', [
-            'umkm' => Umkm::all()
+            'umkm' => AllUmkm::all()
         ]);
     }
 }

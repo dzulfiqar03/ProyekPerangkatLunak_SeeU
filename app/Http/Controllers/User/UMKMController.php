@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\AllUmkm;
 use App\Models\Category;
+use App\Models\DetailUmkm;
 use App\Models\Umkm;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -22,15 +25,15 @@ class UMKMController extends Controller
         Alert::success('Added Successfully', 'UMKM Data Added Successfully.');
         $category = Category::all();
         $user = User::all();
-        $umkm = Umkm::all();
-        $umkmCount = Umkm::all()->count();
-        $culinary = Umkm::orderBy('id')->take(3)->get();
-        $fashion = UMKM::where('category_id', 2)->get();
-        $service = UMKM::where('category_id', 3)->get();
+        $umkm = AllUmkm::all();
+        $umkmCount = AllUmkm::all()->count();
+        $culinary = AllUmkm::orderBy('id')->take(3)->get();
+        $fashion = AllUmkm::where('category_id', 2)->get();
+        $service = AllUmkm::where('category_id', 3)->get();
         $pageTitle = "UMKM";
 
 
-        return redirect()->route('home', ['id' => Auth::user()->id]) ->with([
+        return redirect()->route('home', ['id' => Auth::user()->id])->with([
             'user' => $user,
             'categorys' => $category,
             'umkm' => $umkm,
@@ -90,8 +93,6 @@ class UMKMController extends Controller
 
             // Store File
             $photo->storeAs('public/files/documentUser/profileUMKM', $original_photoname);
-
-
         }
 
         // ELOQUENT
@@ -124,7 +125,9 @@ class UMKMController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $umkm = AllUmkm::with('category', 'city', 'detailUmkm')->where('id_user', Auth::user()->id);
+
+        return view('pages.user.show', compact('umkm'));
     }
 
     /**
@@ -138,49 +141,71 @@ class UMKMController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    // Update UMKM Data
+    public function update(Request $request, $id)
     {
-         // Get File
-         $file = $request->file('usahaDoc');
-         $photo = $request->file('imgPhoto');
+        // Validasi input
 
-         if ($file != null && $photo != null) {
-             $original_filesname = $file->getClientOriginalName();
-             $encrypted_filesname = $file->hashName();
+        // Mulai transaksi untuk memastikan kedua update berjalan atomik
+        DB::beginTransaction();
 
-             // Store File
-             $file->store('public/files/documentUser/suratIzin');
+        try {
+            // Temukan UMKM dan Detail UMKM berdasarkan ID
+            $umkm = AllUmkm::findOrFail($id);  // Tabel allumkm
+            $detailUmkm = DetailUmkm::where('umkm_id', $umkm->id)->first();  // Tabel detailUmkm
 
-             $original_photoname = $photo->getClientOriginalName();
-             $encrypted_photoname = $photo->hashName();
+            // Update Data UMKM di Tabel AllUmkm
+            $umkm->umkm = $request->umkm;
+            $umkm->category_id = $request->category;
+            $umkm->city_id = $request->cities;
+            $umkm->save();  // Simpan perubahan pada tabel allumkm
 
-             // Store File
-             $photo->store('public/files/documentUser/profileUMKM');
+            // Simpan Gambar UMKM jika ada yang diupload
+            if ($request->hasFile('imgPhoto')) {
+                // Hapus gambar lama jika ada
+                if ($detailUmkm->original_photoname) {
+                    Storage::delete('files/documentUser/profileUMKM/' . $detailUmkm->original_photoname);
+                }
+                // Upload gambar baru
+                $imagePath = $request->file('imgPhoto')->storeAs('files/documentUser/profileUMKM', uniqid() . '.' . $request->imgPhoto->extension());
+            } else {
+                $imagePath = $detailUmkm->original_photoname;
+            }
 
-         }
+            // Simpan Surat Izin Usaha jika ada yang diupload
+            if ($request->hasFile('usahaDoc')) {
+                // Hapus file lama jika ada
+                if ($detailUmkm->original_filesname) {
+                    Storage::delete('files/documentUser/usahaDocs/' . $detailUmkm->original_filesname);
+                }
+                // Upload file baru
+                $filePath = $request->file('usahaDoc')->storeAs('files/documentUser/usahaDocs', uniqid() . '.' . $request->usahaDoc->extension());
+            } else {
+                $filePath = $detailUmkm->original_filesname;
+            }
 
-         // ELOQUENT
-         $umkm = Umkm::find($id);
-         $umkm->umkm = $request->umkm;
-         $umkm->description = $request->description;
-         $umkm->email = $request->email;
-         $umkm->address = $request->address;
-         $umkm->telephone_number = $request->telNum;
-         $umkm->category_id = $request->category;
+            // Update Data Detail UMKM di Tabel DetailUmkm
+            $detailUmkm->description = $request->description;
+            $detailUmkm->email = $request->email;
+            $detailUmkm->address = $request->address;
+            $detailUmkm->telephone_number = $request->telNum;
+            $detailUmkm->original_photoname = $imagePath;
+            $detailUmkm->original_filesname = $filePath;
+            $detailUmkm->save();  // Simpan perubahan pada tabel detailUmkm
 
-         if ($file != null && $photo != null) {
-             $umkm->original_photoname = $original_photoname;
-             $umkm->encrypted_photoname = $encrypted_photoname;
+            // Commit transaksi jika semuanya berhasil
+            DB::commit();
+            Alert::success('Added Successfully', 'UMKM Data Added Successfully.');
 
-             $umkm->original_filesname = $original_filesname;
-             $umkm->encrypted_filesname = $encrypted_filesname;
-         }
+            // Redirect dengan pesan sukses
+            return redirect()->route('umkm.detail', $umkm->id)->with('success', 'UMKM updated successfully!');
+        } catch (\Exception $e) {
+            // Jika ada error, rollback transaksi
+            DB::rollBack();
 
-         $umkm->save();
-
-
-
-         return redirect()->route('detail' , $id);
+            // Kembalikan error ke halaman sebelumnya
+            return redirect()->back()->with('error', 'Failed to update UMKM: ' . $e->getMessage());
+        }
     }
 
     /**

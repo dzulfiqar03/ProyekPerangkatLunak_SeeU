@@ -127,12 +127,12 @@
                                 @endif
 
                                 @if (Request::is('admin'))
-                                    <a class="btn btn-warning  fw-bold mb-3" href="{{ route('admin.index') }}">Home</a>
+                                    <a class="btn btn-warning  fw-bold mb-3" href="{{ route('admin.index') }}">Dashboard</a>
 
                                     <a class="btn btn-dark  mb-3" href="{{ route('dataUmkm') }}"
-                                        style="color:rgb(70, 70, 70)">UMKM</a>
+                                        style="color:rgb(70, 70, 70)">Data Umkm</a>
                                     <a class="btn btn-dark  mb-3" href="{{ route('dataUser') }}"
-                                        style="color:rgb(70, 70, 70)">Users</a>
+                                        style="color:rgb(70, 70, 70)">Data Users</a>
                                 @endif
 
                                 @if ($currentRouteName == 'dataUser')

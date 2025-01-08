@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\AllUmkm;
 use App\Models\Category;
+use App\Models\Cities;
+use App\Models\DetailUmkm;
+use App\Models\PhotoUmkm;
 use App\Models\UMKM;
+use Illuminate\Support\Facades\Auth;
 
 class UmkmDetailController extends Controller
 {
     public function index($id)
     {
-        $umkm = UMKM::all();
-        $umkm2 = UMKM::all();
+        $umkm = DetailUmkm::all();
+        $allUmkm = AllUmkm::all();
         $idUmkm = $id;
 
         if (!$umkm) {
@@ -20,22 +25,27 @@ class UmkmDetailController extends Controller
 
         $category = Category::all();
         $pageTitle = "Detail UMKM";
-        $otherUmkm = Umkm::where('id', '!=', $id)->paginate(3);;
+        $otherUmkm = DetailUmkm::where('id', '!=', $id)->paginate(3);;
+        $cities = Cities::all();
+
+        $imagePhoto = PhotoUmkm::where('id_user', Auth::user()->id)->where('umkm_id', $id)->get();
 
         return view('pages.user.umkm_detail', [
             'umkm' => $umkm,
             'idUmkm' => $idUmkm,
             'pageTitle' => $pageTitle,
             'category' => $category,
-            'umkm2' => $umkm2,
-            'otherUmkm' => $otherUmkm
+            'allUmkm' => $allUmkm,
+            'otherUmkm' => $otherUmkm,
+            'cities' => $cities,
+            'imagePhoto' => $imagePhoto,
 
         ]);
     }
 
     public function show($id)
     {
-        $umkm = UMKM::findOrFail($id);
+        $umkm = AllUmkm::findOrFail($id);
         return view('umkm.show', compact('umkm'));
     }
 }

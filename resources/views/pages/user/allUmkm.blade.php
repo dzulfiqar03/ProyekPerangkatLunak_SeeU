@@ -40,19 +40,19 @@
                             @foreach ($umkm as $umkms)
                                 <div class="col allItem">
                                     <div class="m-auto align-items-center cards">
-                                        <a class="text-decoration-none" href="{{ route('detail', ['id' => $umkms->id]) }}">
+                                        <a class="text-decoration-none" href="{{ route('detailAll', ['id' => $umkms->detailUmkm->id]) }}">
 
                                             <div class="card" style="width: 18rem; height:344px">
                                                 <img class="card-img-top" style="height: 200px"
-                                                    src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
+                                                    src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->detailUmkm->original_photoname) }}"
                                                     width="1366px" height="200px" alt="image">
                                                 <div class="card-body text-center">
                                                     <h5 class="card-title text-decoration-none txtMain">
                                                         {{ $umkms->umkm }}</h5>
                                                     <p class="card-text mb-2 txtMain" style="height:48px">
-                                                        {{ $umkms->description }}
+                                                        {{ $umkms->detailUmkm->description }}
                                                     </p>
-                                                    <a href="{{ route('detail', ['id' => $umkms->id]) }}"
+                                                    <a href="{{ route('detail', ['id' => $umkms->detailUmkm->id]) }}"
                                                         class="btn mainColor text-light fw-bold">Go
                                                         somewhere</a>
 

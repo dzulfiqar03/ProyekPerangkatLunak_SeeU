@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailUmkm;
 use App\Models\Category;
+use App\Models\AllUmkm;
 use App\Models\Umkm;
 use App\Models\User;
 use Carbon\Carbon;
@@ -11,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
 
 class HomeController extends Controller
 {
@@ -35,26 +38,27 @@ class HomeController extends Controller
         $search = $request->get('search');
 
         if ($search) {
-            $umkm = Umkm::where('umkm', 'LIKE', "%{$search}%")
+            $umkm = DetailUmkm::where('umkm', 'LIKE', "%{$search}%")
                 ->orWhereHas('category', function ($query) use ($search) {
                     $query->where('name', 'LIKE', "%{$search}%");
                 })
                 ->get();
         } else {
-            $umkm = Umkm::all();
+            $umkm = DetailUmkm::all();
         }
 
         $category = Category::all();
         $user = User::all();
         $users = Auth::user();
-        $umkmCount = Umkm::all()->count();
-        $culinary = UMKM::where('id_user', $id)->where('category_id', 1)->take(6)->get();
-        $fashion = UMKM::where('id_user', $id)->where('category_id', 2)->take(6)->get();
-        $service = UMKM::where('id_user', $id)->where('category_id', 3)->take(6)->get();
+        $umkmCount = DetailUmkm::all()->count();
+        $culinary = AllUmkm::where('id_user', $id)->where('category_id', 1)->take(6)->get();
+        $fashion = AllUmkm::where('id_user', $id)->where('category_id', 2)->take(6)->get();
+        $service = AllUmkm::where('id_user', $id)->where('category_id', 3)->take(6)->get();
         $pageTitle = "Home";
-        $umkm = Umkm::where('id_user', $users->id)->get();
-        $allUmkm = Umkm::all();
-
+        $umkm = AllUmkm::where('id_user', $users->id)->get();
+        $detailUmkm = DetailUmkm::whereHas('allUmkm', function ($query) {
+            $query->where('id_user', Auth::user()->id);
+        })->get();
         $bulanlist = ['January', 'February', 'March', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         foreach ($umkm as $item) {
@@ -77,27 +81,47 @@ class HomeController extends Controller
             'fashion' => $fashion,
             'service' => $service,
             'pageTitle' => $pageTitle,
-            'allUmkm' => $allUmkm,
+            'detailUmkm' => $detailUmkm,
             'bulanList' => $bulanlist,
             'search' => $search,
         ]);
     }
 
 
-    
-    public function getData(Request $request)
-    {
-        $umkm = Umkm::with('category');
 
-        if ($request->ajax()) {
-            return datatables()->of($umkm)
-                ->addIndexColumn()
-                ->addColumn('actions', function ($umkm) {
-                    return view('components.actions', compact('umkm'));
-                })
-                ->toJson();
-        }
+    public function getData(Request $request)
+{
+    // Ambil data UMKM
+    $umkm = AllUmkm::with('category', 'city');
+
+    // Jika permintaan AJAX
+    if ($request->ajax()) {
+        return datatables()->of($umkm)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($umkm) {
+                // Anda bisa menyesuaikan tampilan berdasarkan data UMKM, misalnya nama UMKM dan lokasi
+                return view('components.actions', compact('umkm'));
+            })
+            ->toJson();
     }
+}
+
+public function getMyData(Request $request)
+{
+    // Ambil data UMKM
+    $umkm = AllUmkm::with('category', 'city', 'detailUmkm')->where('id_user', Auth::user()->id);
+
+    // Jika permintaan AJAX
+    if ($request->ajax()) {
+        return datatables()->of($umkm)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($umkm) {
+                // Anda bisa menyesuaikan tampilan berdasarkan data UMKM, misalnya nama UMKM dan lokasi
+                return view('components.actions', compact('umkm'));
+            })
+            ->toJson();
+    }
+}
 
 
     /**
@@ -177,10 +201,9 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
-    }
+        }
 
     /**
      * Show the form for editing the specified resource.
