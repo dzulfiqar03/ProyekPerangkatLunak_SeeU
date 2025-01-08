@@ -28,7 +28,6 @@ class UmkmDetailController extends Controller
         $otherUmkm = DetailUmkm::where('id', '!=', $id)->paginate(3);;
         $cities = Cities::all();
 
-        $imagePhoto = PhotoUmkm::where('id_user', Auth::user()->id)->where('umkm_id', $id)->get();
 
         return view('pages.user.umkm_detail', [
             'umkm' => $umkm,
@@ -38,7 +37,6 @@ class UmkmDetailController extends Controller
             'allUmkm' => $allUmkm,
             'otherUmkm' => $otherUmkm,
             'cities' => $cities,
-            'imagePhoto' => $imagePhoto,
 
         ]);
     }
