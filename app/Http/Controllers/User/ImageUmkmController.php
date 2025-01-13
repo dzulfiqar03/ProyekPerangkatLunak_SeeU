@@ -8,6 +8,7 @@ use App\Models\DetailUmkm;
 use App\Models\PhotoUmkm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ImageUmkmController extends Controller
 {
@@ -17,14 +18,12 @@ class ImageUmkmController extends Controller
     public function index()
     {
 
-        $umkms = DetailUmkm::all();
 
-        foreach ($umkms as $umkms) {
-            # code...
-        
-        return redirect()->route('detailOwner', ['id' => $umkms->id]);
+        Alert::success('Added Successfully', 'UMKM Data Added Successfully.');
 
-    }
+
+        return Redirect()->back();
+
 
 
     }
