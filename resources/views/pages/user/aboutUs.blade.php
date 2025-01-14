@@ -13,7 +13,7 @@
                             class="m-auto">
 
                         <div class="col mt-5">
-                            <h1>SEEU - SI UMKM KETINTANG</h1>
+                            <h1>SEEU - SI UMKM JAWA TIMUR</h1>
                             <p class="">
                                 SeeU - Sistem Informasi UMKM adalah platform yang didedikasikan untuk mendukung dan
                                 mempromosikan Usaha Mikro, Kecil, dan Menengah (UMKM) di Jawa Timur. Kami

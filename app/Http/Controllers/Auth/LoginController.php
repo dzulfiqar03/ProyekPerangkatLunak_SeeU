@@ -38,7 +38,7 @@ class LoginController extends Controller
         $user = User::where('id', Auth::user()->id)->get();
 
         if ($role == "admin") {
-            return '/admin';
+            return '/dashboard';
         } else {
             foreach ($user as $users) {
                 return '/home/';

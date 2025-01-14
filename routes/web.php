@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dataUser', [DataUserController::class, 'index'])->name('dataUser');
     Route::get('/owner', [OwnerController::class, 'index'])->name('owner');
     Route::get('/allUmkm', [AllUmkmController::class, 'index'])->name('allUmkm');
-    Route::get('/admin', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/umkmDetail/{id}', [UmkmDetailController::class, 'index'])->name('detail');
     Route::get('/umkmOwnerDetail/{id}', [UmkmDetailController::class, 'index'])->name('detailOwner');

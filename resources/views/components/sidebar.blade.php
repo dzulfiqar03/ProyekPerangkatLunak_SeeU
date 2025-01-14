@@ -19,7 +19,7 @@
 
                         <div class="row">
                             <div class="col">
-                                @if (Auth::check())
+                                @if (Auth::check() && Auth::user()->role !== 'admin')
                                     <!-- Profile dropdown -->
                                     <div class="relative ml-3">
                                         <div>
@@ -29,9 +29,14 @@
                                                 alt="">
                                         </div>
                                     </div>
+                                @elseif (Auth::check() && Auth::user()->role === 'admin')
+                                    <img class="rounded-full bg-cover border border-white"
+                                        src="{{ Vite::asset('resources/images/profile.png') }}"
+                                        style="height:50px; width:50px" alt="image">
                                 @else
-                                    <img class="mx-auto mb-5" src="{{ Vite::asset('/resources/images/profile.png') }}"
-                                        width="40px" height="40px" alt="image">
+                                    <img class="rounded-full bg-cover border border-white"
+                                        src="{{ Vite::asset('resources/images/profile.png') }}" width="100px"
+                                        height="45px" alt="image">
                                 @endif
                             </div>
 
@@ -78,8 +83,7 @@
                         <div class="w-100 mt-5 h-100 p=5">
                             <div class="d-grid">
                                 @if ($currentRouteName == 'home')
-                                    <a class="btn btn-warning fw-bold mb-3"
-                                        href="{{ route('home') }}">Home</a>
+                                    <a class="btn btn-warning fw-bold mb-3" href="{{ route('home') }}">Home</a>
 
                                     <a class="btn btn-dark mb-3" style="color:rgb(70, 70, 70)"
                                         href="{{ route('allUmkm') }}">UMKM</a>
@@ -116,18 +120,20 @@
                                 @endif
 
 
-                                @if ($currentRouteName == 'dataUmkm')
-                                    <a class="btn btn-dark mb-3" href="{{ route('admin.index') }}"
-                                        style="color:rgb(70, 70, 70)">Home</a>
+                                @if ($currentRouteName === 'dataUmkm')
+                                    <a class="btn btn-dark mb-3" href="{{ route('dashboard') }}"
+                                        style="color:rgb(70, 70, 70)">Dashboard</a>
 
-                                    <a class="btn btn-warning fw-bold  mb-3" href="{{ route('dataUmkm') }}">UMKM</a>
+                                    <a class="btn btn-warning fw-bold  mb-3" href="{{ route('dataUmkm') }}">Data
+                                        UMKM</a>
 
                                     <a class="btn btn-dark fw-bold  mb-3" href="{{ route('dataUser') }}"
-                                        style="color:rgb(70, 70, 70)">Users</a>
+                                        style="color:rgb(70, 70, 70)">Data Users</a>
                                 @endif
 
-                                @if (Request::is('admin'))
-                                    <a class="btn btn-warning  fw-bold mb-3" href="{{ route('admin.index') }}">Dashboard</a>
+                                @if (Request::is('dashboard'))
+                                    <a class="btn btn-warning  fw-bold mb-3"
+                                        href="{{ route('dashboard') }}">Dashboard</a>
 
                                     <a class="btn btn-dark  mb-3" href="{{ route('dataUmkm') }}"
                                         style="color:rgb(70, 70, 70)">Data Umkm</a>
@@ -136,12 +142,13 @@
                                 @endif
 
                                 @if ($currentRouteName == 'dataUser')
-                                    <a class="btn btn-dark mb-3" href="{{ route('admin.index') }}"
-                                        style="color:rgb(70, 70, 70)">Home</a>
+                                    <a class="btn btn-dark mb-3" href="{{ route('dashboard') }}"
+                                        style="color:rgb(70, 70, 70)">Dashboard</a>
 
                                     <a class="btn btn-dark mb-3" href="{{ route('dataUmkm') }}"
-                                        style="color:rgb(70, 70, 70)">UMKM</a>
-                                    <a class="btn btn-warning fw-bold  mb-3" href="{{ route('dataUser') }}">Users</a>
+                                        style="color:rgb(70, 70, 70)">Data UMKM</a>
+                                    <a class="btn btn-warning fw-bold  mb-3" href="{{ route('dataUser') }}">Data
+                                        Users</a>
                                 @endif
                             </div>
 

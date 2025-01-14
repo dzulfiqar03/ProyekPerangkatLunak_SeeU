@@ -30,7 +30,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
 
                 <div x-data="{ open: false }" class="relative">
-                    @if (Request::is('admin'))
+                    @if (Request::is('dashboard'))
                         <div class="d-flex gap-6">
                             <div class="m-auto">
                                 <button class="notification-button">
@@ -45,9 +45,10 @@
                                 @click="open = !open" @keydown.escape.window="open = false" id="user-menu-button"
                                 aria-expanded="false" aria-haspopup="true">
                                 <span class="sr-only">Open user menu</span>
-                                @if ($currentRouteName == 'admin')
+                                @if (Request::is('dashboard'))
                                     <img width="50" height="100" class="rounded-full bg-cover border border-white"
-                                        style="height:50px" src="" alt="User Avatar">
+                                        src="{{ Vite::asset('resources/images/profile.png') }}"
+                                        style="height:50px; width:50px" alt="image">
                                 @else
                                     <img width="50" height="100" class="rounded-full bg-cover border border-white"
                                         style="height:50px"
@@ -91,14 +92,24 @@
                             @click="open = !open" @keydown.escape.window="open = false" id="user-menu-button"
                             aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open user menu</span>
-                            @if ($currentRouteName == 'admin')
-                                <img width="50" height="100" class="rounded-full bg-cover border border-white"
-                                    style="height:50px" src="" alt="User Avatar">
-                            @else
+                            @if (Auth::check() && Auth::user()->role !== 'admin')
+                                <!-- Profile dropdown -->
                                 <img width="50" height="100" class="rounded-full bg-cover border border-white"
                                     style="height:50px"
                                     src="{{ Storage::url('images/' . Auth::user()->original_filename) }}"
                                     alt="User Avatar">
+                            @elseif (Auth::check() && Auth::user()->role === 'admin')
+                                <img width="50" height="100" class="rounded-full bg-cover border border-white"
+                                    src="{{ Vite::asset('resources/images/profile.png') }}"
+                                    style="height:50px; width:50px" alt="image">
+                            @elseif($currentRouteName === 'dataUmkm')
+                                <img width="50" height="100" class="rounded-full bg-cover border border-white"
+                                    src="{{ Vite::asset('resources/images/profile.png') }}"
+                                    style="height:50px; width:50px" alt="image">
+                            @else
+                                <img width="50" height="100" class="rounded-full bg-cover border border-white"
+                                    src="{{ Vite::asset('resources/images/profile.png') }}" width="100px"
+                                    height="45px" alt="image">
                             @endif
 
                             <h5 class="m-auto px-3">Profile</h5>

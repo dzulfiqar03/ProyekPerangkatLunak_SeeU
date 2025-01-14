@@ -30,7 +30,7 @@ class AdminController extends Controller
     {
         $approveUMKM = ApproveUMKMModel::all();
         $category = Category::all();
-        $user = User::all();
+        $user = User::whereNot('role', 'admin')->get();
         $umkm = AllUmkm::all();
         $umkmCount = AllUmkm::all()->count();
         $culinary = AllUmkm::where('category_id', 1)->get();

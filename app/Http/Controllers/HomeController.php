@@ -277,7 +277,7 @@ public function getMyData(Request $request)
 
     public function getUser(Request $request)
     {
-        $user = User::all();
+        $user = User::whereNot('role', 'admin')->get();
 
         if ($request->ajax()) {
             return datatables()->of($user)
