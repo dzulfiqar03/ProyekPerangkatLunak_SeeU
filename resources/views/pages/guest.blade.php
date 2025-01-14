@@ -109,7 +109,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-9 product-container" style="height: 750px">
+                                <div class="col-9 product-container" style="@if($umkm->count() > 4) height: 750px @else height: 400px @endif">
                                     <form id="searchForm">
                                         <div class="input-group mb-3">
                                             <input type="text" name="search" class="form-control"
@@ -120,8 +120,8 @@
 
                                     <div class="product-list-container">
                                         <div class="product-list-item" id="culinary">
-                                            <div class="row">
-                                                @foreach ($umkm as $umkms)
+                                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 gap-5">
+                                                @foreach ($umkm->take(8) as $umkms)
                                                     <div class="col itemUMKM rounded-lg" id="searchResults"
                                                     data-kategori="{{ $umkms->allUmkm->category->name}}">
                                                         <a href="{{ route('gstDetail', ['id' => $umkms->id]) }}"

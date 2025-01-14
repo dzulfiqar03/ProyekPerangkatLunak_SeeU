@@ -44,10 +44,10 @@ Route::get('/guest', [GuestController::class, 'index'])->name('guest');
 Route::middleware('auth')->group(function () {
 
 
-    Route::get('/home/{id}', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/dataUmkm', [DataUmkmController::class, 'index'])->name('dataUmkm');
     Route::get('/dataUser', [DataUserController::class, 'index'])->name('dataUser');
-    Route::get('/owner/{id}', [OwnerController::class, 'index'])->name('owner');
+    Route::get('/owner', [OwnerController::class, 'index'])->name('owner');
     Route::get('/allUmkm', [AllUmkmController::class, 'index'])->name('allUmkm');
     Route::get('/admin', [AdminController::class, 'index'])->name('dashboard');
 
@@ -87,3 +87,5 @@ Route::resource('approveumkm', ApproveUMKMController::class);
 Route::resource('imageUmkm', ImageUmkmController::class);
 
 Route::delete('/delete', [AdminController::class, 'destroy'])->name('delete');
+
+Route::delete('/delete2', [AdminController::class, 'destroy2'])->name('delete2');

@@ -178,6 +178,19 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Data berhasil ditambahkan');
     }
 
+    public function destroy2(Request $request)
+    {
+        $id = $request->input('id');  // Get the ID from the request
+        $item = ApproveUMKMModel::find($id);
+
+        if ($item) {
+            $item->delete();
+            return response()->json(['message' => 'Data berhasil dihapus.']);
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan.'], 404);
+        }
+    }
+
     public function exportExcel()
     {
         return Excel::download(new UmkmExport, 'umkm.xlsx');

@@ -12,8 +12,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ $pageTitle }}</title>
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/Logo/mainLogo-light.png') }}" type="image/png">
+    <link rel="icon" href="{{ Vite::asset('resources/images/Logo/mainLogo-light.png') }}" type="image/png">
+        <title>{{ $pageTitle }}</title>
 
 
     @include('components.link.head')

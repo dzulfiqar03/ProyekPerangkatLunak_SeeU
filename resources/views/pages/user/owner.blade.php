@@ -69,29 +69,32 @@
                                                 <p>Kosong</p>
                                             @endif
                                             @foreach ($umkm as $umkms)
-                                                <div class="col items mb-5 style="flex:0"">
-                                                    <a class="text-decoration-none"
-                                                        href="{{ route('detailOwner', ['id' => $umkms->detailUmkm->id]) }}">
-
-                                                        <div class="card d-flex" style="width: 18rem; height:344px">
-                                                            <img class="card-img-top" style="height: 200px"
-                                                                src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->detailUmkm->original_photoname) }}"
-                                                                width="1366px" height="200px" alt="image">
-                                                            <div class="card-body ">
-                                                                <h5 class="card-title text-decoration-none txtMain">
-                                                                    {{ $umkms->umkm }}</h5>
-                                                                <p class="card-text mb-2 txtMain" style="height:48px">
-                                                                    {{ $umkms->detailUmkm->description }}
-                                                                </p>
-                                                                <a href=""
-                                                                    class="btn mainColor text-light fw-bold">Go
-                                                                    somewhere</a>
-
+                                            <div class="col items" style="padding: 0; flex: 0">
+                                                <a class="text-decoration-none" href="{{ route('detailOwner', ['id' => $umkms->detailUmkm->id]) }}">
+                                                    <div class="card" style="width: 18rem; height:344px">
+                                                        <img class="card-img-top" style="height: 200px"
+                                                            src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->detailUmkm->original_photoname) }}"
+                                                            width="1366px" height="200px" alt="image">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-decoration-none txtMain">
+                                                                {{ $umkms->umkm }}</h5>
+                                                            <p class="card-text mb-2 txtMain" style="height:48px">
+                                                                {{ $umkms->detailUmkm->description }}
+                                                            </p>
+                                                            <div class="d-flex justify-content-between">
+                                                                <a href="" class="btn mainColor text-light fw-bold">Go somewhere</a>
+                                                                <form action="{{ route('umkm.destroy', ['umkm' =>  $umkms->id]) }}" method="POST">
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <button type="submit" class="btn btn-outline-dark btn-sm me-2 btn-delete">
+                                                                        <i class="bi-trash"></i>
+                                                                    </button>
+                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </a>
-
-                                                </div>
+                                                    </div>
+                                                </a>
+                                            </div>
                                             @endforeach
                                         </div>
                                     </div>

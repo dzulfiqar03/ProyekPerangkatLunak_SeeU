@@ -11,6 +11,7 @@ class DetailUmkm extends Model
 
     protected $table = 'detailUmkm';
 
+    
 
 // Relasi dengan model AllUmkm
 public function allUmkm()

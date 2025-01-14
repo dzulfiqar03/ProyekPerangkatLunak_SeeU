@@ -32,7 +32,7 @@ class GuestController extends Controller
         $user = User::all();
         $users = Auth::user();
         $umkmCount = DetailUmkm::all()->count();
-        $pageTitle = "Home";
+        $pageTitle = "Guest";
         $allUmkm = DetailUmkm::all();
 
         $bulanlist = ['January', 'February', 'March', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

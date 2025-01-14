@@ -129,7 +129,7 @@
                                 </div>
 
                                 <div class="mt-5">
-                                    <a href="@if ($currentRouteName !== 'gstDetail' && $currentRouteName !== 'detailOwner' && $currentRouteName !== 'detailAll' && $currentRouteName !== 'detailAdmin') {{ route('home', ['id' => $umkm->allumkm->id_user]) }}  @elseif($currentRouteName == 'detailAll') {{ route('allUmkm') }} @elseif($currentRouteName == 'detailAdmin') {{ route('dataUmkm') }}  @elseif($currentRouteName === 'detailOwner') {{ route('owner', ['id' => $umkm->allumkm->id_user]) }}   @else {{ route('guest') }} @endif"
+                                    <a href="@if ($currentRouteName !== 'gstDetail' && $currentRouteName !== 'detailOwner' && $currentRouteName !== 'detailAll' && $currentRouteName !== 'detailAdmin') {{ route('home') }}  @elseif($currentRouteName == 'detailAll') {{ route('allUmkm') }} @elseif($currentRouteName == 'detailAdmin') {{ route('dataUmkm') }}  @elseif($currentRouteName === 'detailOwner') {{ route('owner') }}   @else {{ route('guest') }} @endif"
                                         class="btn btn-dark btn-lg w-100">
                                         Back
                                     </a>
@@ -390,7 +390,7 @@
         <div class="product-list-container">
             <div class="product-list-item" id="culinary">
                 <div class="row">
-                    @foreach ($otherUmkm as $umkms)
+                    @foreach ($otherUmkm->take(3) as $umkms)
                         <div class="col itemUMKM rounded-lg" id="searchResults">
                             <a href="@if ($currentRouteName === 'detailOwner') {{ route('detailOwner', ['id' => $umkms->id]) }} @elseif ($currentRouteName === 'detailAll') {{ route('detailAll', ['id' => $umkms->id]) }}  @elseif ($currentRouteName === 'detailAdmin') {{ route('detailAdmin', ['id' => $umkms->id]) }} @elseif ($currentRouteName === 'gstDetail') {{ route('gstDetail', ['id' => $umkms->id]) }} @else {{ route('detail', ['id' => $umkms->id]) }} @endif"
                                 class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">

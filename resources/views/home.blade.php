@@ -84,7 +84,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-9 product-container" style="height: 400px">
+                                <div class="col-9 product-container" style="@if($detailUmkm->count() > 4) height: 750px @else height: 400px @endif">
                                     <form id="searchForm">
                                         <div class="input-group mb-3">
                                             <input type="text" name="search" class="form-control"
@@ -95,27 +95,28 @@
 
                                     <div class="product-list-container">
                                         <div class="product-list-item" id="culinary">
-                                            <div class="row">
-                                                @foreach ($detailUmkm as $umkms)
-                                                    <div class="col itemUMKM rounded-lg" id="searchResults"
-                                                        data-kategori="{{ $umkms->allUmkm->category->name}}">
-                                                        <a href="{{ route('detail', ['id' => $umkms->id]) }}"
-                                                            class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">
-                                                            <div class="itemcard" style="width: 203px">
-                                                                <img src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
-                                                                    alt="image"
-                                                                    style="height: 200px; width:300px; border-radius:20px">
-                                                                <div class="card-body mt-3">
-                                                                    <h5>{{ $umkms->allUmkm->umkm }}</h5>
-                                                                    <p>{{ Str::limit($umkms->description, 20) }}</p>
-                                                                    <a href="{{ route('detail', ['id' => $umkms->id]) }}"
-                                                                        class="btn mainColor text-light fw-bold">Go
-                                                                        somewhere</a>
-                                                                </div>
+                                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 gap-4">
+                                                @foreach ($detailUmkm->take(4) as $umkms)
+                                                <div class="col itemUMKM rounded-lg" id="searchResults" style="width: 203px; flex: 0 0 auto;"
+                                                    data-kategori="{{ $umkms->allUmkm->category->name }}">
+                                                    <a href="{{ route('detail', ['id' => $umkms->id]) }}"
+                                                        class="hover:bg-slate-200 cursor-pointer text-decoration-none text-black">
+                                                        <div class="itemcard p-0 m-0" style="width: 203px;">
+                                                            <img src="{{ Storage::url('files/documentUser/profileUMKM/' . $umkms->original_photoname) }}"
+                                                                alt="image"
+                                                                style="height: 200px; width: 203px; border-radius:20px">
+                                                            <div class="mt-3" style="width: 203px;">
+                                                                <h5>{{ $umkms->allUmkm->umkm }}</h5>
+                                                                <p>{{ Str::limit($umkms->description, 20) }}</p>
+                                                                <a href="{{ route('detail', ['id' => $umkms->id]) }}"
+                                                                    class="btn mainColor text-light fw-bold">Go
+                                                                    somewhere</a>
                                                             </div>
-                                                        </a>
-                                                    </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                                 @endforeach
+                                                
                                             </div>
 
                                         </div>

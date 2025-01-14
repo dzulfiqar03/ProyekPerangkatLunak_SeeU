@@ -12,7 +12,7 @@ class AllUmkmController extends Controller
 {
     public function index(){
         $user = User::all();
-        $umkm = AllUmkm::where('id_user', Auth::user()->id);
+        $umkm = AllUmkm::where('id_user', Auth::user()->id)->get();
         $pageTitle = "UMKM";
 
         return view('pages.user.allUmkm', [

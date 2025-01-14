@@ -440,7 +440,7 @@
 
                                                                                 <div class="col">
 
-                                                                                    <button type="button"
+                                                                                    <button type="button" data-id="{{$umkm->id}}"
                                                                                         class="btn btn-danger w-100 confirm-action2 btn-lg mt-3"
                                                                                         id="confirm-action2"><i
                                                                                             class="bi-trash me-2"></i>
@@ -525,6 +525,8 @@
 
                                                                     $(function() {
                                                                         $(".modal").on("click", ".confirm-action2", function(e) {
+                                                                            var id = $(this).data("id");  // Get the ID of the item to be deleted from the clicked element
+       
                                                                             Swal.fire({
                                                                                     title: 'Apakah Anda yakin ingin menghapus data lama?',
                                                                                     text: 'Aksi ini tidak dapat dibatalkan.',
@@ -536,10 +538,12 @@
                                                                                     if (willDelete) {
                                                                                         // Ambil ID UMKM dari form
                                                                                         var formData = $('#myForm').serialize();
+                                                                                        formData += '&id=' + id;  // Add the ID to the form data
+
                                                                                         // Lakukan aksi delete
                                                                                         $.ajax({
                                                                                             type: 'DELETE',
-                                                                                            url: '{{ route('delete') }}',
+                                                                                            url: '{{ route('delete2') }}',
                                                                                             data: formData,
                                                                                             complete: function(
                                                                                                 response

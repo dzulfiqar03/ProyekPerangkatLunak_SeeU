@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AllUmkm;
 use App\Models\Category;
 use App\Models\DetailUmkm;
+use App\Models\PhotoUmkm;
 use App\Models\Umkm;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -166,10 +167,14 @@ class UMKMController extends Controller
                 if ($detailUmkm->original_photoname) {
                     Storage::delete('files/documentUser/profileUMKM/' . $detailUmkm->original_photoname);
                 }
-                // Upload gambar baru
-                $imagePath = $request->file('imgPhoto')->storeAs('files/documentUser/profileUMKM', uniqid() . '.' . $request->imgPhoto->extension());
+                $original_photoname = $request->file('imgPhoto')->getClientOriginalName();
+                $encrypted_photoname = $request->file('imgPhoto')->hashName();
+
+                // Store File
+                $request->file('imgPhoto')->storeAs('public/files/documentUser/profileUMKM', $original_photoname);
             } else {
-                $imagePath = $detailUmkm->original_photoname;
+                $original_photoname = $detailUmkm->original_photoname;
+                $encrypted_photoname = $detailUmkm->encrypted_photoname;
             }
 
             // Simpan Surat Izin Usaha jika ada yang diupload
@@ -178,10 +183,15 @@ class UMKMController extends Controller
                 if ($detailUmkm->original_filesname) {
                     Storage::delete('files/documentUser/usahaDocs/' . $detailUmkm->original_filesname);
                 }
+
+                $original_filesname = $request->file('usahaDoc')->getClientOriginalName();
+                $encrypted_filesname = $request->file('usahaDoc')->hashName();
+
                 // Upload file baru
-                $filePath = $request->file('usahaDoc')->storeAs('files/documentUser/usahaDocs', uniqid() . '.' . $request->usahaDoc->extension());
+                $request->file('usahaDoc')->storeAs('public/files/documentUser/usahaDocs', $original_filesname);
             } else {
-                $filePath = $detailUmkm->original_filesname;
+                $original_filesname = $detailUmkm->original_filesname;
+                $encrypted_filesname = $detailUmkm->encrypted_filesname;
             }
 
             // Update Data Detail UMKM di Tabel DetailUmkm
@@ -189,13 +199,18 @@ class UMKMController extends Controller
             $detailUmkm->email = $request->email;
             $detailUmkm->address = $request->address;
             $detailUmkm->telephone_number = $request->telNum;
-            $detailUmkm->original_photoname = $imagePath;
-            $detailUmkm->original_filesname = $filePath;
+            if ($request->file('usahaDoc') != null || $request->file('imgPhoto') != null) {
+                $detailUmkm->original_photoname = $original_photoname;
+                $detailUmkm->encrypted_photoname = $encrypted_photoname;
+
+                $detailUmkm->original_filesname = $original_filesname;
+                $detailUmkm->encrypted_filesname = $encrypted_filesname;
+            }
             $detailUmkm->save();  // Simpan perubahan pada tabel detailUmkm
 
             // Commit transaksi jika semuanya berhasil
             DB::commit();
-            Alert::success('Added Successfully', 'UMKM Data Added Successfully.');
+            Alert::success('Updates Successfully', 'UMKM Data Updated Successfully.');
 
             // Redirect dengan pesan sukses
             return redirect()->route('umkm.detail', $umkm->id)->with('success', 'UMKM updated successfully!');
@@ -213,21 +228,50 @@ class UMKMController extends Controller
      */
     public function destroy(string $id)
     {
-        $umkm = Umkm::find($id);
-
+        $umkm = AllUmkm::find($id);
+     $detailUmkm = DetailUmkm::where('umkm_id', $umkm->id)->first();
         if ($umkm) {
-            if (Storage::disk('public')->exists('files/documentUser/suratIzin/' . $umkm->encrypted_filesname) && Storage::disk('public')->exists('files/documentUser/profileUMKM/' . $umkm->encrypted_photoname)) {
-                Storage::disk('public')->delete('files/documentUser/suratIzin/' . $umkm->encrypted_filesname);
-                Storage::disk('public')->delete('files/documentUser/profileUMKM/' . $umkm->encrypted_filesname);
-                echo 'File deleted successfully.';
-            } else {
-                echo 'File not found.';
+            // Hapus data photo UMKM terkait
+            $photoUmkm = PhotoUmkm::where('umkm_id', $detailUmkm->id)->first();
+            if ($photoUmkm) {
+                // Hapus file terkait jika ada
+                if (Storage::disk('public')->exists('files/documentUser/galleryUmkm/' . $photoUmkm->original_photoname)) {
+                    Storage::disk('public')->delete('files/documentUser/galleryUmkm/' . $photoUmkm->original_photoname);
+                }
+    
+                // Hapus data photo UMKM
+                $photoUmkm->delete();
             }
+    
+            // Hapus data detail UMKM terkait
+           
+            if ($detailUmkm) {
+                // Hapus file terkait jika ada
+                if (Storage::disk('public')->exists('files/documentUser/suratIzin/' . $detailUmkm->original_filesname)) {
+                    Storage::disk('public')->delete('files/documentUser/suratIzin/' . $detailUmkm->original_filesname);
+                }
+    
+                if (Storage::disk('public')->exists('files/documentUser/profileUMKM/' . $detailUmkm->original_photoname)) {
+                    Storage::disk('public')->delete('files/documentUser/profileUMKM/' . $detailUmkm->original_photoname);
+                }
+    
+                // Hapus data detail UMKM
+                $detailUmkm->delete();
+            }
+    
+            // Hapus data UMKM dari tabel umum
+            $umkm->delete();
+    
+            Alert::success('Deleted Successfully', 'UMKM Data Deleted Successfully.');
+    
+            return Redirect()->back();
         }
-        $umkm->delete();
-
-        return redirect()->route('dataUmkm');
+    
+        Alert::error('Error', 'UMKM Not Found.');
+        return Redirect()->back();
     }
+    
+    
 
     public function getAllUmkm()
     {

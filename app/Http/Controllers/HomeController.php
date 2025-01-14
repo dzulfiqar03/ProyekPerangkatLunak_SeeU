@@ -32,7 +32,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request, $id)
+    public function index(Request $request)
     {
 
         $search = $request->get('search');
@@ -51,9 +51,6 @@ class HomeController extends Controller
         $user = User::all();
         $users = Auth::user();
         $umkmCount = DetailUmkm::all()->count();
-        $culinary = AllUmkm::where('id_user', $id)->where('category_id', 1)->take(6)->get();
-        $fashion = AllUmkm::where('id_user', $id)->where('category_id', 2)->take(6)->get();
-        $service = AllUmkm::where('id_user', $id)->where('category_id', 3)->take(6)->get();
         $pageTitle = "Home";
         $umkm = AllUmkm::where('id_user', $users->id)->get();
         $detailUmkm = DetailUmkm::whereHas('allUmkm', function ($query) {
@@ -77,9 +74,6 @@ class HomeController extends Controller
             'category' => $category,
             'umkm' => $umkm,
             'umkmCount' => $umkmCount,
-            'culinary' => $culinary,
-            'fashion' => $fashion,
-            'service' => $service,
             'pageTitle' => $pageTitle,
             'detailUmkm' => $detailUmkm,
             'bulanList' => $bulanlist,

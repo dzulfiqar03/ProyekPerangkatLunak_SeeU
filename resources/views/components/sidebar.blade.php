@@ -79,7 +79,7 @@
                             <div class="d-grid">
                                 @if ($currentRouteName == 'home')
                                     <a class="btn btn-warning fw-bold mb-3"
-                                        href="{{ route('home', ['id' => Auth::user()->id]) }}">Home</a>
+                                        href="{{ route('home') }}">Home</a>
 
                                     <a class="btn btn-dark mb-3" style="color:rgb(70, 70, 70)"
                                         href="{{ route('allUmkm') }}">UMKM</a>
@@ -88,7 +88,7 @@
                                         Us</a>
                                 @elseif($currentRouteName == 'allUmkm')
                                     <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
-                                        href="{{ route('home', ['id' => Auth::user()->id]) }}">Home</a>
+                                        href="{{ route('home') }}">Home</a>
 
                                     <a class="btn btn-warning fw-bold   mb-3" href="{{ route('allUmkm') }}">UMKM</a>
                                     <a class="btn btn-dark mb-3" style="color:rgb(70, 70, 70)"
@@ -96,7 +96,7 @@
                                         Us</a>
                                 @elseif($currentRouteName == 'about')
                                     <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
-                                        href="{{ route('home', ['id' => Auth::user()->id]) }}">Home</a>
+                                        href="{{ route('home') }}">Home</a>
 
                                     <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
                                         href="{{ route('allUmkm') }}">UMKM</a>
@@ -106,7 +106,7 @@
 
                                 @if ($currentRouteName == 'owner')
                                     <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
-                                        href="{{ route('home', ['id' => Auth::user()->id]) }}">Home</a>
+                                        href="{{ route('home') }}">Home</a>
 
                                     <a class="btn btn-dark  mb-3" style="color:rgb(70, 70, 70)"
                                         href="{{ route('allUmkm') }}">UMKM</a>

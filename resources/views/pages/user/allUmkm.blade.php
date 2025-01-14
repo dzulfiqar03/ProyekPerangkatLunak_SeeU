@@ -36,10 +36,12 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="row g-4">
+                        
+                        <div class="row gap-5 pl-10">
                             @foreach ($umkm as $umkms)
-                                <div class="col allItem">
-                                    <div class="m-auto align-items-center cards">
+                            
+                            <div class="col allItem" style="padding: 0;  flex: 0">
+                                <div class="align-items-center cards">
                                         <a class="text-decoration-none" href="{{ route('detailAll', ['id' => $umkms->detailUmkm->id]) }}">
 
                                             <div class="card" style="width: 18rem; height:344px">
@@ -52,7 +54,7 @@
                                                     <p class="card-text mb-2 txtMain" style="height:48px">
                                                         {{ $umkms->detailUmkm->description }}
                                                     </p>
-                                                    <a href="{{ route('detail', ['id' => $umkms->detailUmkm->id]) }}"
+                                                    <a href="{{ route('detailAll', ['id' => $umkms->detailUmkm->id]) }}"
                                                         class="btn mainColor text-light fw-bold">Go
                                                         somewhere</a>
 

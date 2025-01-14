@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initialscale=1.0">
     <title>SeeU - Sistem Informasi UMKM</title>
-    <link rel="shortcut icon" href="/resources/images/Logo/mainLogo.png" type="image/svg+xml">
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/Logo/mainLogo-light.png') }}" type="image/png">
+    <link rel="icon" href="{{ Vite::asset('resources/images/Logo/mainLogo-light.png') }}" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     @vite('resources/sass/app.scss')
